@@ -1,0 +1,444 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>La Huertita · Guía de huerta urbana familiar</title>
+    <meta name="description" content="Guía para empezar una huerta en casa, basada en el programa ProHuerta del INTA.">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css?v=2210b">
+  </head>
+  <body data-base="">
+    <header class="nav-huertita container-xxl px-3">
+      <nav class="navbar navbar-expand-lg">
+        <a class="navbar-brand" href="index.html">La Huertita <small>Asistente de huerta</small></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu" aria-controls="menu" aria-expanded="false" aria-label="Abrir el menú">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse " id="menu">
+          <ul class="navbar-nav gap-lg-3">
+            <li class="nav-item"><a class="nav-link active" aria-current="page" href="index.html">Inicio</a></li>
+            <li class="nav-item"><a class="nav-link" href="html/calendario.html">Calendario</a></li>
+            <li class="nav-item"><a class="nav-link" href="html/preparar-y-sembrar.html">Preparar y sembrar</a></li>
+            <li class="nav-item"><a class="nav-link" href="html/cuidar-y-cosechar.html">Cuidar</a></li>
+          </ul>
+          <a class="btn-cta" href="index.html#mis-plantas">Mi huerta <span class="circulo" aria-hidden="true">↗</span></a>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <!-- Portada -->
+      <section class="portada-interna portada-inicio">
+        <div class="foto-marco">
+          <img class="fondo" src="imgs/paisajes/hero.webp" alt="Surcos de lechuga en una huerta a campo abierto" fetchpriority="high">
+          <div class="foto-rotulos"><span>Guía de huerta urbana familiar</span><span>Calendario · Clima · Diario</span></div>
+          <div class="foto-pie">
+            <h1 class="foto-titulo">Una huerta en casa, <em>de la semilla a la cosecha.</em></h1>
+            <a class="btn-cta" href="html/preparar-y-sembrar.html">Empezar <span class="circulo" aria-hidden="true">↗</span></a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Intro y datos -->
+      <section class="intro-n" aria-label="La Huertita en números">
+        <div class="container-xxl px-4 px-lg-5">
+          <p class="texto aparece">Tener una huerta no es cuestión de tener campo ni buena mano. Es <em>acompañar a la naturaleza:</em> cultivar sin agroquímicos, cuidar el suelo y el agua, mezclar muchas especies y guardar la propia semilla.</p>
+          <div class="datos-n">
+            <div class="dato-n"><b data-contar="25">25</b><span>cultivos con calendario, ficha y diario</span></div>
+            <div class="dato-n"><b data-contar="53">53</b><span>publicaciones del INTA en el estante</span></div>
+            <div class="dato-n"><b data-contar="12">12</b><span>meses de siembra en la región pampeana</span></div>
+            <div class="dato-n"><b data-contar="5">5</b><span>días de pronóstico para planificar el riego</span></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Qué hay en la guía -->
+      <section class="seccion banda-salvia" aria-labelledby="titulo-guia">
+        <div class="container-xxl px-4 px-lg-5">
+          <div class="cabeza-seccion">
+            <div>
+              <p class="overline">Qué hay en la guía</p>
+              <h2 id="titulo-guia">De la primera semilla <em>a la última cosecha.</em></h2>
+            </div>
+            <a class="btn-cta claro" href="html/preparar-y-sembrar.html">Empezar <span class="circulo" aria-hidden="true">↗</span></a>
+          </div>
+          <div class="row g-3">
+            <div class="col-md-4">
+              <a class="tarjeta-n aparece" href="html/calendario.html">
+                <span class="foto"><img src="imgs/fotos/vivero.webp" alt="Huertero revisando plantines en un vivero" loading="lazy"></span>
+                <span class="num">01</span>
+                <h3>Calendario y cultivos</h3>
+                <p>Qué sembrar en cada mes de la región pampeana, con una ficha para cada especie.</p>
+                <span class="link-linea">Ver el calendario <span aria-hidden="true">→</span></span>
+              </a>
+            </div>
+            <div class="col-md-4">
+              <a class="tarjeta-n aparece" href="html/preparar-y-sembrar.html">
+                <span class="foto"><img src="imgs/fotos/manos-plantando.webp" alt="Manos con guantes plantando en tierra suelta" loading="lazy"></span>
+                <span class="num">02</span>
+                <h3>Preparar y sembrar</h3>
+                <p>Del lugar y el suelo hasta la semilla en el cantero, paso a paso.</p>
+                <span class="link-linea">Empezar a preparar <span aria-hidden="true">→</span></span>
+              </a>
+            </div>
+            <div class="col-md-4">
+              <a class="tarjeta-n aparece" href="html/cuidar-y-cosechar.html">
+                <span class="foto"><img src="imgs/fotos/pulverizar.webp" alt="Pulverizador de mano sobre una planta" loading="lazy"></span>
+                <span class="num">03</span>
+                <h3>Cuidar y cosechar</h3>
+                <p>Riego, control sin químicos, cosecha y semilla para el año que viene.</p>
+                <span class="link-linea">Ver los cuidados <span aria-hidden="true">→</span></span>
+              </a>
+            </div>
+
+
+
+          </div>
+        </div>
+      </section>
+
+      <!-- Tu huerta hoy: clima, riego y consejo -->
+      <section class="tablero pt-5" id="tu-huerta" aria-labelledby="titulo-tablero">
+        <div class="container-xxl px-4 px-lg-5">
+          <div class="titulo-tablero">
+            <div>
+              <p class="overline">Asistente</p>
+              <h2 id="titulo-tablero" class="titulo-n mt-3 mb-0">Tu huerta <em>hoy.</em></h2>
+            </div>
+            <span class="vivo">Con el clima de tu ciudad</span>
+          </div>
+          <div class="row g-3">
+            <div class="col-lg-5">
+              <article class="panel-verde clima" id="clima" aria-live="polite">
+                <div class="cabeza">
+                  <div>
+                    <h3 class="fs-5 mb-1">Clima</h3>
+                    <p class="mb-0 small">Pronóstico de cinco días</p>
+                  </div>
+                  <button class="ciudad" type="button" data-bs-toggle="modal" data-bs-target="#modal-ciudad" aria-label="Cambiar la ciudad">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                    <span>Buenos Aires</span>
+                  </button>
+                </div>
+                <div class="clima-cuerpo d-flex flex-column gap-3 flex-grow-1"><p class="estado">Cargando el clima…</p></div>
+                <p class="fuente-clima">Datos de <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a></p>
+              </article>
+            </div>
+            <div class="col-md-7 col-lg-4">
+              <article class="panel riego" id="riego" aria-live="polite">
+                <div class="cabeza">
+                  <h3 class="fs-5 mb-0">Riego de hoy</h3>
+                  <span class="icono-redondo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z"/></svg></span>
+                </div>
+                <div class="riego-cuerpo d-flex flex-column gap-3 flex-grow-1"><p class="veredicto">Calculando…</p></div>
+                <p class="fuente-dato">Pautas de riego del INTA en <a href="https://repositorio.inta.gob.ar/handle/20.500.12123/4528" target="_blank" rel="noopener"><em>Riego por goteo</em></a>. Cálculo con la evapotranspiración FAO de Open-Meteo.</p>
+              </article>
+            </div>
+            <div class="col-md-5 col-lg-3">
+              <article class="panel consejo" id="consejo" aria-live="polite">
+                <div class="cabeza">
+                  <h3 class="fs-5 mb-0">Consejo del día</h3>
+                  <span class="icono-redondo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6M10 22h4"/></svg></span>
+                </div>
+                <p class="texto"></p>
+                <p class="fuente-dato">Consejos basados en <a href="https://repositorio.inta.gob.ar/handle/20.500.12123/15389" target="_blank" rel="noopener"><em>La Huerta Orgánica</em></a> y <a href="https://repositorio.inta.gob.ar/handle/20.500.12123/15072" target="_blank" rel="noopener"><em>Mi casa, mi huerta</em></a>, INTA.</p>
+                <div class="pasar align-items-center">
+                  <button type="button" data-paso="-1" aria-label="Consejo anterior">←</button>
+                  <button type="button" data-paso="1" aria-label="Consejo siguiente">→</button>
+                  <small class="cual ms-2 text-body-secondary"></small>
+                </div>
+              </article>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Qué sembrar este mes (se actualiza solo con la fecha) -->
+      <section class="este-mes" aria-labelledby="titulo-mes">
+        <div class="container-xxl px-4 px-lg-5">
+          <div class="row g-3">
+            <div class="col-lg-4">
+              <article class="panel-verde dial-tarjeta">
+                <div class="cabeza">
+                  <div>
+                    <p class="overline">Qué sembrar este mes</p>
+                    <h2 class="mes" id="titulo-mes">Septiembre</h2>
+                  </div>
+                  <span class="pildora-vidrio">Hoy</span>
+                </div>
+                <div class="dial" id="dial-mes"></div>
+                <div class="pie-dial">
+                  <p class="mb-0 small" id="temporada-mes">Primavera y verano. Se actualiza solo según la fecha.</p>
+                  <a class="boton-redondo lima con-globo" href="html/calendario.html" aria-label="Ver el calendario completo"><span class="globo">Calendario</span>→</a>
+                </div>
+              </article>
+            </div>
+            <div class="col-lg-8 d-flex flex-column gap-3">
+              <div class="row g-3">
+                <div class="col-md-6"><div class="panel tarjeta-fecha" id="tarjeta-fecha"></div></div>
+                <div class="col-md-6"><div class="panel tarjeta-progreso" id="tarjeta-progreso"></div></div>
+              </div>
+              <article class="panel lista-tareas flex-grow-1">
+                <div class="cabeza">
+                  <h3 class="fs-5 mb-0 d-flex align-items-center gap-2">Para sembrar este mes <span class="contador" id="cuenta-mes">4</span></h3>
+                  <a class="link-flecha" href="html/calendario.html">Ver el calendario completo →</a>
+                </div>
+                <div id="cultivos-mes">
+                  <!-- filas generadas por js/este-mes.js -->
+                </div>
+                <p class="fuente-dato mb-0">Meses según el calendario de siembra de ProHuerta para la región pampeana.</p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Mis plantas: seguimiento día a día -->
+      <section class="mis-plantas pb-5" id="mis-plantas" aria-labelledby="titulo-plantas">
+        <div class="container-xxl px-4 px-lg-5">
+          <div class="titulo-tablero d-flex flex-wrap align-items-end justify-content-between gap-3 mb-3 mt-3">
+            <div>
+              <p class="overline">Tu diario</p>
+              <h2 id="titulo-plantas" class="titulo-n d-flex align-items-center gap-2 mb-0 mt-3">Mis <em>plantas</em> <span class="contador" id="cuenta-plantas">0</span></h2>
+            </div>
+            <button class="btn btn-huerta lima" type="button" data-bs-toggle="modal" data-bs-target="#modal-planta">+ Sumar planta</button>
+          </div>
+          <p class="bajada mb-4">Cargá lo que sembraste y anotá cómo va. El asistente calcula la etapa, los días para cosechar y qué cuidado necesita.</p>
+          <div class="row g-3" id="grilla-plantas"></div>
+          <p class="credito">Tus plantas y fotos se guardan solo en este navegador.</p>
+        </div>
+      </section>
+
+      <!-- Antes y después -->
+      <section class="seccion" aria-labelledby="titulo-antes">
+        <div class="container-xxl px-4 px-lg-5">
+          <div class="text-center mb-5">
+            <p class="overline">Lo que cambia</p>
+            <h2 id="titulo-antes" class="mt-3 mx-auto" style="max-width:18ch">De un rincón olvidado <em>a una huerta que da de comer.</em></h2>
+            <p class="bajada mt-3">Un patio con pasto alto o un balcón vacío alcanzan. Con un plan simple y la estación justa, en una temporada ya hay cosecha.</p>
+          </div>
+          <div class="antes-despues aparece">
+            <img src="imgs/fotos/patio-antes.webp" alt="Antes: un patio con pasto crecido y sin cultivar">
+            <img class="despues" src="imgs/paisajes/canteros.webp" alt="Después: un cantero elevado con lechugas, verdeo y aromáticas">
+            <span class="etiqueta izq">Antes</span><span class="etiqueta der">Después</span>
+            <span class="linea"></span>
+            <input type="range" min="0" max="100" value="50" aria-label="Deslizá para comparar antes y después">
+            <span class="tirador" aria-hidden="true">‹ ›</span>
+          </div>
+          <p class="credito text-center mt-3">Imágenes de referencia, no son el mismo lugar.</p>
+        </div>
+      </section>
+
+      <!-- La base: INTA ProHuerta -->
+      <section class="seccion base-inta banda-bosque" aria-labelledby="titulo-inta">
+        <div class="container-xxl px-4 px-lg-5">
+          <div class="row g-4 align-items-end mb-4">
+            <div class="col-lg-8">
+              <p class="overline">Fuente oficial</p>
+              <h2 id="titulo-inta" class="mt-3">Todo lo que dice esta guía <em>sale del INTA.</em></h2>
+              <p class="bajada mt-3" style="color:rgba(251,248,236,.75)">Los datos de siembra, cuidado y riego vienen de los manuales del programa ProHuerta, que acompaña huertas familiares, escolares y comunitarias en todo el país.</p>
+            </div>
+            <div class="col-lg-3 offset-lg-1">
+              <div class="dato-n"><b data-contar="53">53</b><span>publicaciones del INTA para la huerta, con su enlace al repositorio institucional.</span></div>
+            </div>
+          </div>
+          <div class="estante-marco">
+            <div class="estante-barra">
+              <div class="filtro filtro-oscuro" id="filtro-estante" role="group" aria-label="Filtrar por tema">
+                <button type="button" data-grupo="todos" aria-pressed="true">Todos</button>
+                <button type="button" data-grupo="empezar" aria-pressed="false">Para empezar</button>
+                <button type="button" data-grupo="planificar" aria-pressed="false">Planificar</button>
+                <button type="button" data-grupo="semillas" aria-pressed="false">Semillas</button>
+                <button type="button" data-grupo="agua" aria-pressed="false">Suelo y riego</button>
+                <button type="button" data-grupo="cuidados" aria-pressed="false">Cuidados</button>
+                <button type="button" data-grupo="cultivos" aria-pressed="false">Cultivos</button>
+                <button type="button" data-grupo="cosecha" aria-pressed="false">Cosecha</button>
+                <button type="button" data-grupo="mas" aria-pressed="false">Más</button>
+              </div>
+              <div class="d-flex align-items-center gap-2">
+                <span class="cuenta-leidos" id="cuenta-leidos">Leíste 0 de 53</span>
+                <button class="mover" type="button" data-mover="-1" aria-label="Ver libros anteriores">←</button>
+                <button class="mover" type="button" data-mover="1" aria-label="Ver más libros">→</button>
+              </div>
+            </div>
+            <div class="estante" id="estante" aria-label="Estante de publicaciones del INTA"></div>
+            <div class="tabla-estante" aria-hidden="true"></div>
+            <div class="ficha-libro" id="ficha-libro" aria-live="polite"></div>
+          </div>
+          <p class="credito">Publicaciones del <a href="https://repositorio.inta.gob.ar/" target="_blank" rel="noopener">repositorio del INTA</a>, con licencia CC BY-NC-SA. Tapas y datos tomados de cada ficha del repositorio. Lo que marcás como leído se guarda en este navegador.</p>
+        </div>
+      </section>
+
+      <!-- Cómo empezar -->
+      <section class="seccion" aria-labelledby="titulo-empezar">
+        <div class="container-xxl px-4 px-lg-5">
+          <div class="row g-5 align-items-stretch">
+            <div class="col-lg-5">
+              <p class="overline">Desde cero</p>
+              <h2 class="mt-3 mb-4" id="titulo-empezar">Cuatro pasos <em>para arrancar.</em></h2>
+              <img class="foto-redonda aparece" src="imgs/fotos/herramientas.webp" alt="Herramientas de mano, guantes y plantines sobre la tierra" loading="lazy">
+            </div>
+            <div class="col-lg-7 d-flex flex-column justify-content-end">
+              <ol class="filas-n">
+                <li><span class="n">01</span><div><strong>Definí para qué</strong><p>Consumo diario, algo puntual o una actividad con chicos.</p></div></li>
+                <li><span class="n">02</span><div><strong>Arrancá chico</strong><p>Un cantero o unas macetas alcanzan para empezar.</p></div></li>
+                <li><span class="n">03</span><div><strong>Recorré la guía en orden</strong><p>Preparar, sembrar, calendario, cuidar y cosechar.</p></div></li>
+                <li><span class="n">04</span><div><strong>Volvé al calendario</strong><p>Cada vez que cambia la estación.</p></div></li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Preguntas frecuentes -->
+      <section class="seccion banda-salvia" aria-labelledby="titulo-faq">
+        <div class="container-xxl px-4 px-lg-5">
+          <div class="row g-4">
+            <div class="col-lg-4 d-flex flex-column">
+              <p class="overline">Preguntas</p>
+              <h2 class="mt-3 mb-3" id="titulo-faq">¿Tenés <em>dudas?</em></h2>
+              <p class="bajada">Lo que más se pregunta al empezar la primera huerta.</p>
+              <div class="ayuda mt-auto">
+                <div><strong>¿Seguís con dudas?</strong><span>Consultá con el INTA de tu zona.</span></div>
+                <a class="btn btn-huerta lima chico" href="https://www.argentina.gob.ar/inta" target="_blank" rel="noopener">INTA</a>
+              </div>
+            </div>
+            <div class="col-lg-8">
+              <div class="accordion preguntas" id="faq">
+                <div class="accordion-item">
+                  <h3 class="accordion-header"><button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#p1" aria-expanded="true" aria-controls="p1">¿Necesito mucho espacio?</button></h3>
+                  <div id="p1" class="accordion-collapse collapse show" data-bs-parent="#faq"><div class="accordion-body">No. Un cantero chico o unas macetas en el balcón alcanzan para empezar. En Preparar y sembrar están los tipos de huerta según el lugar. <span class="fuente-dato d-block mt-2">Fuente: <a href="https://repositorio.inta.gob.ar/handle/20.500.12123/15072" target="_blank" rel="noopener"><em>Mi casa, mi huerta</em></a>, INTA.</span></div></div>
+                </div>
+                <div class="accordion-item">
+                  <h3 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#p2" aria-expanded="false" aria-controls="p2">¿Cuánto sol necesita la huerta?</button></h3>
+                  <div id="p2" class="accordion-collapse collapse" data-bs-parent="#faq"><div class="accordion-body">La mayoría de las hortalizas pide al menos seis horas de sol directo por día. Las de hoja toleran un poco de media sombra. <span class="fuente-dato d-block mt-2">Fuente: <a href="https://repositorio.inta.gob.ar/handle/20.500.12123/15389" target="_blank" rel="noopener"><em>La Huerta Orgánica</em></a>, INTA.</span></div></div>
+                </div>
+                <div class="accordion-item">
+                  <h3 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#p3" aria-expanded="false" aria-controls="p3">¿Cada cuánto tengo que regar?</button></h3>
+                  <div id="p3" class="accordion-collapse collapse" data-bs-parent="#faq"><div class="accordion-body">Depende del clima y de la planta. El asistente lo calcula cada día con el clima de tu ciudad. Sin conexión, tocá la tierra: si a dos centímetros está seca, regá.</div></div>
+                </div>
+                <div class="accordion-item">
+                  <h3 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#p4" aria-expanded="false" aria-controls="p4">¿Dónde se guardan mis plantas?</button></h3>
+                  <div id="p4" class="accordion-collapse collapse" data-bs-parent="#faq"><div class="accordion-body">En este navegador, sin cuenta ni registro. Si borrás los datos del navegador o usás otra compu, el diario empieza de nuevo.</div></div>
+                </div>
+                <div class="accordion-item">
+                  <h3 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#p5" aria-expanded="false" aria-controls="p5">¿Los meses sirven para todo el país?</button></h3>
+                  <div id="p5" class="accordion-collapse collapse" data-bs-parent="#faq"><div class="accordion-body">Están pensados para la región pampeana. Confirmalos con el calendario de ProHuerta de tu región. <span class="fuente-dato d-block mt-2">Fuente: calendario de siembra ProHuerta, INTA.</span></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Cierre -->
+      <section class="cierre-bosque" aria-labelledby="titulo-cierre">
+        <div class="container-xxl px-4">
+          <p class="overline">La primera temporada</p>
+          <h2 id="titulo-cierre">¿Arrancamos <em>a sembrar?</em></h2>
+          <blockquote>La primera temporada casi nunca sale como uno la imaginó, y está perfecto. Lo que no cosechás en verduras lo cosechás en oficio.</blockquote>
+          <a class="btn-cta" href="#tu-huerta">Ver qué toca este mes <span class="circulo" aria-hidden="true">↗</span></a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="pie">
+      <div class="container-xxl px-3">
+        <div class="pie-marco">
+          <img class="fondo" src="imgs/paisajes/bruma.webp" alt="" loading="lazy">
+          <div class="pie-tarjeta">
+            <div>
+              <p class="overline mb-2">Sobre esta guía</p>
+              <p class="mb-2">Resumen editorial basado en publicaciones del INTA ProHuerta: <a href="https://repositorio.inta.gob.ar/handle/20.500.12123/15389" target="_blank" rel="noopener"><em>La Huerta Orgánica</em></a>, <a href="https://repositorio.inta.gob.ar/handle/20.500.12123/15072" target="_blank" rel="noopener"><em>Mi casa, mi huerta</em></a>, <em>Manual de la huerta agroecológica</em>, <em>Calendario de siembra</em> y otras. Todos los manuales están en el <a href="https://repositorio.inta.gob.ar/" target="_blank" rel="noopener">repositorio del INTA</a>.</p>
+              <p class="credito mt-0 mb-0">Fotos de cultivos: Unsplash y Wikimedia Commons. Zapallito y coliflor, Tiia Monto (CC BY-SA); papa, Fk (CC BY-SA 4.0); repollo, fir0002 (GFDL 1.2); zapallo, zanahoria y remolacha, Evan-Amos (dominio público). Fotos de huerta y herramientas: plantilla Plantz (Framer). Clima de Open-Meteo.</p>
+            </div>
+            <div>
+              <p class="overline mb-2">Proyecto</p>
+              <p class="mb-3">Juli Reboa · Composición Digital · Da Vinci 2026</p>
+              <a class="btn btn-huerta lima chico" href="html/calendario.html">Qué sembrar este mes</a>
+            </div>
+          </div>
+          <div class="pie-barra">
+            <nav class="d-flex flex-wrap gap-4" aria-label="Pie de página">
+              <a href="index.html">Inicio</a>
+              <a href="html/calendario.html">Calendario</a>
+              <a href="html/preparar-y-sembrar.html">Preparar y sembrar</a>
+              <a href="html/cuidar-y-cosechar.html">Cuidar y cosechar</a>
+            </nav>
+            <span>Basada en el programa ProHuerta del INTA</span>
+          </div>
+          <p class="pie-gigante" aria-hidden="true">La Huertita</p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Sumar planta -->
+    <div class="modal fade" id="modal-planta" tabindex="-1" aria-labelledby="titulo-modal-planta" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <form class="modal-content" id="form-planta">
+          <div class="modal-header">
+            <h2 class="modal-title" id="titulo-modal-planta">Sumar una planta</h2>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+          </div>
+          <div class="modal-body">
+            <label class="form-label" for="cultivo-nuevo">¿Qué sembraste?</label>
+            <select class="form-select mb-3" id="cultivo-nuevo" name="cultivo" required></select>
+            <label class="form-label" for="fecha-nueva">¿Cuándo?</label>
+            <input class="form-control mb-3" id="fecha-nueva" name="fecha" type="date" required>
+            <p class="form-label">¿Dónde?</p>
+            <div class="selector-estado" style="grid-template-columns:1fr 1fr" role="radiogroup" aria-label="Lugar">
+              <input type="radio" name="lugar" id="l-cantero" value="cantero" checked><label for="l-cantero">En cantero</label>
+              <input type="radio" name="lugar" id="l-maceta" value="maceta"><label for="l-maceta">En maceta</label>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-huerta secundario" data-bs-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn btn-huerta lima">Sumar a mi huerta</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Elegir ciudad -->
+    <div class="modal fade" id="modal-ciudad" tabindex="-1" aria-labelledby="titulo-modal-ciudad" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2 class="modal-title" id="titulo-modal-ciudad">Tu ciudad</h2>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+          </div>
+          <div class="modal-body">
+            <form class="d-flex gap-2 mb-3" id="form-ciudad" role="search">
+              <label class="visually-hidden" for="q-ciudad">Buscar ciudad</label>
+              <input class="form-control" id="q-ciudad" name="q" type="search" placeholder="Ej.: Rosario" autocomplete="off">
+              <button class="btn btn-huerta" type="submit">Buscar</button>
+            </form>
+            <div id="resultados-ciudad"></div>
+            <button class="link-flecha mt-2" type="button" id="usar-ubicacion">Usar mi ubicación →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Diario de una planta -->
+    <div class="offcanvas offcanvas-end diario" tabindex="-1" id="diario" aria-labelledby="diario-titulo">
+      <div class="offcanvas-header">
+        <h2 class="offcanvas-title fs-4" id="diario-titulo">Diario</h2>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Cerrar"></button>
+      </div>
+      <div class="offcanvas-body" id="diario-cuerpo"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+    <script src="js/cultivos.js"></script>
+    <script src="js/asistente.js"></script>
+    <script src="js/este-mes.js"></script>
+    <script src="js/estante-datos.js"></script>
+    <script src="js/estante.js"></script>
+    <script src="js/front.js?v=2210b"></script>
+  </body>
+</html>

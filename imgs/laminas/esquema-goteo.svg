@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 420" font-family="Hanken Grotesk, system-ui, sans-serif" font-size="15" fill="none" stroke="#461312" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <title>Esquema de riego por goteo</title>
+  <!-- suelo -->
+  <path d="M20 360 H620"/>
+  <path d="M20 372 h10 m14 0 h10 m14 0 h10 m14 0 h10 m14 0 h10 m14 0 h10 m14 0 h10 m14 0 h10 m14 0 h10 m14 0 h10 m14 0 h10 m14 0 h10 m14 0 h10 m14 0 h10 m14 0 h10 m14 0 h10 m14 0 h10 m14 0 h10 m14 0 h10 m14 0 h10 m14 0 h10 m14 0 h10 m14 0 h10 m14 0 h10" stroke-width="1" stroke="#B5AD80"/>
+  <!-- soporte del tanque -->
+  <path d="M58 360 L78 170 M162 360 L142 170 M66 280 H154 M71 230 H149 M66 280 L149 230 M154 280 L71 230" stroke-width="1.6"/>
+  <!-- tanque -->
+  <path d="M60 170 H160 V90 Q160 74 144 74 H76 Q60 74 60 90 Z"/>
+  <path d="M60 120 H160" stroke-width="1" stroke-dasharray="4 5"/>
+  <path d="M96 74 V62 H124 V74"/>
+  <!-- bajada, llave y filtro -->
+  <path d="M110 170 V196 Q110 206 120 206 H210"/>
+  <circle cx="186" cy="206" r="10"/>
+  <path d="M186 196 V184 M178 184 H194"/>
+  <rect x="222" y="194" width="34" height="24" rx="4"/>
+  <path d="M256 206 H286 Q296 206 296 216 V318 Q296 328 306 328 H600"/>
+  <!-- cantero -->
+  <path d="M300 360 V336 H612 V360" stroke-width="1.6"/>
+  <!-- goteros cada 20 a 30 cm -->
+  <g stroke-width="1.6">
+    <path d="M340 322 v12 M392 322 v12 M444 322 v12 M496 322 v12 M548 322 v12"/>
+  </g>
+  <g fill="#6C0B25" stroke="none">
+    <path d="M340 342 q-4 6 0 9 q4 -3 0 -9Z M392 342 q-4 6 0 9 q4 -3 0 -9Z M444 342 q-4 6 0 9 q4 -3 0 -9Z M496 342 q-4 6 0 9 q4 -3 0 -9Z M548 342 q-4 6 0 9 q4 -3 0 -9Z"/>
+  </g>
+  <!-- cota entre goteros -->
+  <path d="M392 300 H444 M392 294 v12 M444 294 v12" stroke-width="1" stroke="#64652A"/>
+  <!-- rótulos -->
+  <g fill="#2E1A0E" stroke="none">
+    <text x="60" y="44">Tanque elevado</text>
+    <text x="172" y="168">Llave</text>
+    <text x="222" y="184">Filtro</text>
+    <text x="452" y="304" fill="#64652A" font-size="13">20 a 30 cm</text>
+    <text x="458" y="396">Cinta con goteros</text>
+    <text x="150" y="396">La altura da la presión</text>
+  </g>
+  <path d="M128 384 L128 300" stroke="#64652A" stroke-width="1" marker-end="url(#f)"/>
+  <defs><marker id="f" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10" fill="none" stroke="#64652A" stroke-width="1.5"/></marker></defs>
+</svg>

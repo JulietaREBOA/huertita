@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Calendario y cultivos · La Huertita</title>
+    <meta name="description" content="Qué sembrar, cuándo y cómo: calendario anual de siembra y fichas de cultivo, basado en el ProHuerta del INTA.">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css?v=2210b">
+  </head>
+  <body data-base="../">
+    <header class="nav-huertita container-xxl px-3">
+      <nav class="navbar navbar-expand-lg">
+        <a class="navbar-brand" href="../index.html">La Huertita <small>Asistente de huerta</small></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu" aria-controls="menu" aria-expanded="false" aria-label="Abrir el menú">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse " id="menu">
+          <ul class="navbar-nav gap-lg-3">
+            <li class="nav-item"><a class="nav-link" href="../index.html">Inicio</a></li>
+            <li class="nav-item"><a class="nav-link active" aria-current="page" href="calendario.html">Calendario</a></li>
+            <li class="nav-item"><a class="nav-link" href="preparar-y-sembrar.html">Preparar y sembrar</a></li>
+            <li class="nav-item"><a class="nav-link" href="cuidar-y-cosechar.html">Cuidar</a></li>
+          </ul>
+          <a class="btn-cta" href="../index.html#mis-plantas">Mi huerta <span class="circulo" aria-hidden="true">↗</span></a>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <section class="portada-interna">
+        <div class="foto-marco">
+          <img class="fondo" src="../imgs/fotos/vivero.webp" alt="Huertero acomodando macetas con plantines en un vivero" fetchpriority="high">
+          <div class="foto-rotulos"><span>Página 2 de 4</span><span>Qué sembrar · Cuándo · Cómo</span></div>
+          <p class="foto-titulo" aria-hidden="true">Calendario <em>y cultivos.</em></p>
+        </div>
+      </section>
+
+      <!-- Hero + este mes -->
+      <section class="hero-interna">
+        <div class="container-xxl px-4 px-lg-5">
+          <div class="row g-5 align-items-center">
+            <div class="col-lg-7">
+              <p class="overline">Calendario y cultivos</p>
+              <h1>Qué sembrar, <em>cuándo y cómo.</em></h1>
+              <p class="bajada mb-0">El mapa de toda la huerta. Para cada especie, la época, la forma de siembra y su ficha completa. Tenelo a mano toda la temporada.</p>
+            </div>
+            <div class="col-lg-5">
+              <aside class="card tarjeta tarjeta-mes" aria-labelledby="temporada-mes">
+                <p class="overline d-flex align-items-center gap-2"><span id="rotulo-mes">Este mes</span></p>
+                <h2 id="temporada-mes">Primavera y verano</h2>
+                <p>Se actualiza solo según la fecha.</p>
+                <div class="chips mb-3" id="chips-mes"></div>
+                <a class="link-flecha" href="#calendario">Ver todo lo del mes →</a>
+              </aside>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Filtros y cómo leer -->
+      <section class="pt-5 pb-4">
+        <div class="container-xxl px-4 px-lg-5">
+          <div class="d-flex flex-wrap gap-4 align-items-center justify-content-between mb-5">
+            <div class="d-flex flex-wrap gap-4 align-items-center">
+              <div class="filtro" id="filtro-temporada" role="group" aria-label="Temporada">
+                <button type="button" data-valor="todo" aria-pressed="true">Todo el año</button>
+                <button type="button" data-valor="oi" aria-pressed="false">Otoño e invierno</button>
+                <button type="button" data-valor="pv" aria-pressed="false">Primavera y verano</button>
+              </div>
+              <div class="filtro" id="filtro-forma" role="group" aria-label="Forma de siembra">
+                <span class="etiqueta">Forma</span>
+                <button type="button" data-valor="todas" aria-pressed="true">Todas</button>
+                <button type="button" data-valor="directa" aria-pressed="false">Directa</button>
+                <button type="button" data-valor="almacigo" aria-pressed="false">Almácigo</button>
+              </div>
+            </div>
+            <label class="visually-hidden" for="buscador">Buscar especie</label>
+            <input class="buscador" id="buscador" type="search" placeholder="Buscar especie…" autocomplete="off">
+          </div>
+
+          <ol class="pasos en-fila">
+            <li><span class="n">1</span><div><strong>Ubicá la especie</strong><span>Buscala en su fila o con el buscador.</span></div></li>
+            <li><span class="n">2</span><div><strong>Mirá los meses</strong><span>Oliva es siembra directa; salvia, almácigo.</span></div></li>
+            <li><span class="n">3</span><div><strong>Abrí la ficha</strong><span>Cada nombre enlaza a su ficha de cultivo.</span></div></li>
+          </ol>
+        </div>
+      </section>
+
+      <!-- Calendario anual -->
+      <section class="pt-4 pb-5" id="calendario">
+        <div class="container-xxl px-4 px-lg-5">
+          <h2 class="visually-hidden">Calendario anual de siembra</h2>
+          <div class="table-responsive tabla-huerta">
+            <div class="gantt" id="gantt" role="table" aria-label="Meses de siembra por especie"></div>
+          </div>
+          <div class="leyenda">
+            <span><i style="background:linear-gradient(90deg,#55731F,#8FA846)"></i>Siembra directa</span>
+            <span><i style="background:linear-gradient(90deg,#C2C78A,#DCE59A)"></i>Almácigo y transplante</span>
+            <span><i style="background:var(--color-acento)"></i>Mes actual</span>
+            <span>Los meses cambian según la zona. Confirmalos con el calendario de ProHuerta de tu región.</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Las dos temporadas -->
+      <section class="seccion">
+        <div class="container-xxl px-4 px-lg-5">
+          <div class="encabezado">
+            <p class="overline">Temporadas</p>
+            <h2>Dos grandes listas <em>de siembra.</em></h2>
+          </div>
+          <div class="row g-4">
+            <div class="col-lg-6">
+              <article class="card tarjeta">
+                <div class="row g-4">
+                  <div class="col-sm-5"><figure class="lamina-grabado foto-recorte" style="--tono:#D6DE9E"><img class="img-fluid recorte" src="../imgs/cultivos/repollo.webp" alt="Repollo crespo de invierno" loading="lazy"></figure></div>
+                  <div class="col-sm-7">
+                    <p class="overline">Febrero a julio, según la zona</p>
+                    <h3>Otoño e invierno</h3>
+                    <p class="fw-semibold" style="color:var(--color-titulos)">Hojas, raíces y coles que toleran el frío.</p>
+                    <p>Ajo, haba, arveja, espinaca, escarola, repollo, brócoli, coliflor, cebolla.</p>
+                    <p class="fst-italic mb-0">Lo que sembrás en marzo y abril es lo que comés cuando la verdura está más cara.</p>
+                  </div>
+                </div>
+              </article>
+            </div>
+            <div class="col-lg-6">
+              <article class="card tarjeta">
+                <div class="row g-4">
+                  <div class="col-sm-5"><figure class="lamina-grabado foto-recorte" style="--tono:#E8C3BC"><img class="img-fluid recorte" src="../imgs/cultivos/zapallo.webp" alt="Zapallo de verano" loading="lazy"></figure></div>
+                  <div class="col-sm-7">
+                    <p class="overline">Agosto a enero, sin riesgo de heladas</p>
+                    <h3>Primavera y verano</h3>
+                    <p class="fw-semibold" style="color:var(--color-titulos)">Plantas de fruto y de crecimiento rápido con calor.</p>
+                    <p>Tomate, pimiento, berenjena, albahaca, zapallo, zapallito, maíz, melón, pepino, chaucha.</p>
+                    <p class="fst-italic mb-0">Una helada tardía te borra el almácigo de tomate en una noche, así que esperá.</p>
+                  </div>
+                </div>
+              </article>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Fichas de cultivo -->
+      <section class="seccion alterna">
+        <div class="container-xxl px-4 px-lg-5">
+          <div class="encabezado">
+            <p class="overline">Catálogo</p>
+            <h2>Fichas <em>de cultivo.</em></h2>
+            <p class="bajada">Una ficha por especie, con la misma estructura para compararlas de un vistazo.</p>
+          </div>
+          <div class="filtro mb-4" id="filtro-familia" role="group" aria-label="Filtrar por familia">
+            <button type="button" data-valor="todas" aria-pressed="true">Todas</button>
+            <button type="button" data-valor="hoja" aria-pressed="false">Hoja</button>
+            <button type="button" data-valor="fruto" aria-pressed="false">Fruto</button>
+            <button type="button" data-valor="raiz" aria-pressed="false">Raíz</button>
+            <button type="button" data-valor="legumbre" aria-pressed="false">Legumbres</button>
+            <button type="button" data-valor="aromatica" aria-pressed="false">Aromáticas</button>
+          </div>
+          <div class="row g-3" id="grilla-fichas"></div>
+        </div>
+      </section>
+
+      <!-- Ficha tipo -->
+      <section class="seccion">
+        <div class="container-xxl px-4 px-lg-5">
+          <div class="encabezado">
+            <p class="overline">Plantilla</p>
+            <h2>Así se ve <em>cada ficha.</em></h2>
+            <p class="bajada">Enlaza con la foto de cada cultivo y con las páginas de Preparar y sembrar y de Cuidar y cosechar.</p>
+          </div>
+          <article class="ficha row g-5" id="ficha" aria-live="polite" style="scroll-margin-top:110px">
+            <div class="col-lg-5">
+              <div class="cabecera-ficha">
+                <p class="overline" data-campo="familia">Fruto</p>
+                <p class="nombre" data-campo="nombre" aria-hidden="true">Tomate</p>
+                <div class="anillo" data-campo="anillo"></div>
+                <img class="ficha-imagen recorte" src="../imgs/cultivos/tomate.webp" data-cultivo="tomate" data-base="../" alt="Tomate">
+                <div class="sombra-piso" aria-hidden="true"></div>
+              </div>
+            </div>
+            <div class="col-lg-7">
+              <nav aria-label="Ubicación">
+                <ol class="breadcrumb migas mb-0">
+                  <li class="breadcrumb-item"><a href="#calendario">Calendario</a></li>
+                  <li class="breadcrumb-item"><a href="#grilla-fichas">Fichas</a></li>
+                  <li class="breadcrumb-item active" aria-current="page" data-campo="miga">Tomate</li>
+                </ol>
+              </nav>
+              <h3>Tomate</h3>
+              <div class="chips"></div>
+              <dl>
+                <div class="ico-familia"><dt>Familia</dt><dd data-campo="botanica"></dd></div>
+                <div class="ico-epoca"><dt>Época de siembra</dt><dd data-campo="siembra"></dd></div>
+                <div class="ico-forma"><dt>Forma de siembra</dt><dd data-campo="como"></dd></div>
+                <div class="ico-distancia"><dt>Distancia</dt><dd data-campo="distancia"></dd></div>
+                <div class="ico-riego"><dt>Riego</dt><dd data-campo="riego"></dd></div>
+                <div class="ico-asociaciones"><dt>Asociaciones</dt><dd data-campo="asociaciones"></dd></div>
+                <div class="ico-cosecha"><dt>A cosecha</dt><dd data-campo="dias"></dd></div>
+                <div class="ico-plagas"><dt>Plagas y cuidados</dt><dd><a href="cuidar-y-cosechar.html#plagas">Ver Cuidar y cosechar</a></dd></div>
+              </dl>
+              <p class="fuente-dato">Ficha basada en materiales del INTA ProHuerta: <a href="https://repositorio.inta.gob.ar/handle/20.500.12123/15389" target="_blank" rel="noopener"><em>La Huerta Orgánica</em></a> y el <em>Manual de cultivos para la huerta orgánica familiar</em>.</p>
+              <a class="btn btn-huerta lima w-100 mb-3" id="ficha-sumar" href="../index.html#mis-plantas">Sumar a mi huerta</a>
+              <div class="d-flex gap-3">
+                <button class="btn btn-huerta secundario" type="button" id="ficha-anterior">← Anterior</button>
+                <button class="btn btn-huerta secundario" type="button" id="ficha-siguiente">Siguiente →</button>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- Frutales, aromáticas y medicinales -->
+      <section class="seccion alterna">
+        <div class="container-xxl px-4 px-lg-5">
+          <div class="encabezado">
+            <p class="overline">El rincón perenne</p>
+            <h2>Frutales, aromáticas <em>y medicinales.</em></h2>
+            <p class="bajada">No compiten con el resto de la huerta, la cuidan.</p>
+          </div>
+          <div class="row g-4">
+            <div class="col-lg-6">
+              <div class="row g-4 align-items-center">
+                <div class="col-sm-5"><figure class="lamina-grabado foto-recorte" style="--tono:#E8C3BC"><img class="img-fluid recorte" src="../imgs/cultivos/frutilla.webp" alt="Frutilla madura" loading="lazy"></figure></div>
+                <div class="col-sm-7">
+                  <h3 class="fs-4">Frutales</h3>
+                  <p class="mb-0">En los bordes, donde no sombreen los canteros. Se eligen según el clima y el espacio, con poda de formación y de fructificación.</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="row g-4 align-items-center">
+                <div class="col-sm-5"><figure class="lamina-grabado foto-recorte" style="--tono:#C3D493"><img class="img-fluid recorte" src="../imgs/cultivos/albahaca.webp" alt="Planta de albahaca en maceta" loading="lazy"></figure></div>
+                <div class="col-sm-7">
+                  <h3 class="fs-4">Aromáticas y medicinales</h3>
+                  <p class="mb-0">Las perennes (romero, tomillo, orégano) van en un cantero fijo; las demás, intercaladas entre las hortalizas.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <p class="nota">Tené el calendario impreso y clavado en la pared de la huerta. Es la consulta más frecuente de toda la temporada.</p>
+        </div>
+      </section>
+
+      <section class="fuentes">
+        <div class="container-xxl px-4 px-lg-5">
+          <p class="mb-0"><span class="overline">Fuentes · INTA ProHuerta</span> <em>Calendario de siembra</em>, <em>Manual de cultivos para la huerta orgánica familiar</em>, <a href="https://repositorio.inta.gob.ar/handle/20.500.12123/15387" target="_blank" rel="noopener"><em>Frutales en la huerta orgánica familiar</em></a>, <em>Poda de frutales</em>, <em>Aromáticas</em>.</p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="pie">
+      <div class="container-xxl px-3">
+        <div class="pie-marco">
+          <img class="fondo" src="../imgs/paisajes/bruma.webp" alt="" loading="lazy">
+          <div class="pie-tarjeta">
+            <div>
+              <p class="overline mb-2">Sobre esta guía</p>
+              <p class="mb-2">Resumen editorial basado en publicaciones del INTA ProHuerta: <a href="https://repositorio.inta.gob.ar/handle/20.500.12123/15389" target="_blank" rel="noopener"><em>La Huerta Orgánica</em></a>, <a href="https://repositorio.inta.gob.ar/handle/20.500.12123/15072" target="_blank" rel="noopener"><em>Mi casa, mi huerta</em></a>, <em>Manual de la huerta agroecológica</em>, <em>Calendario de siembra</em> y otras. Todos los manuales están en el <a href="https://repositorio.inta.gob.ar/" target="_blank" rel="noopener">repositorio del INTA</a>.</p>
+              <p class="credito mt-0 mb-0">Fotos de cultivos: Unsplash y Wikimedia Commons. Zapallito y coliflor, Tiia Monto (CC BY-SA); papa, Fk (CC BY-SA 4.0); repollo, fir0002 (GFDL 1.2); zapallo, zanahoria y remolacha, Evan-Amos (dominio público). Fotos de huerta y herramientas: plantilla Plantz (Framer). Clima de Open-Meteo.</p>
+            </div>
+            <div>
+              <p class="overline mb-2">Proyecto</p>
+              <p class="mb-3">Juli Reboa · Composición Digital · Da Vinci 2026</p>
+              <a class="btn btn-huerta lima chico" href="calendario.html">Qué sembrar este mes</a>
+            </div>
+          </div>
+          <div class="pie-barra">
+            <nav class="d-flex flex-wrap gap-4" aria-label="Pie de página">
+              <a href="../index.html">Inicio</a>
+              <a href="calendario.html">Calendario</a>
+              <a href="preparar-y-sembrar.html">Preparar y sembrar</a>
+              <a href="cuidar-y-cosechar.html">Cuidar y cosechar</a>
+            </nav>
+            <span>Basada en el programa ProHuerta del INTA</span>
+          </div>
+          <p class="pie-gigante" aria-hidden="true">La Huertita</p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+    <script src="../js/cultivos.js"></script>
+    <script src="../js/este-mes.js"></script>
+    <script src="../js/calendario.js"></script>
+    <script src="../js/front.js?v=2210b"></script>
+  </body>
+</html>
