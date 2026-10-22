@@ -3,7 +3,7 @@
 **Nombre y apellido:** Julieta Reboa
 **Legajo:** _(completar)_
 **Sitio publicado:** _(URL de Netlify)_
-**Repositorio:** _(URL de GitHub)_
+**Repositorio:** https://github.com/JulietaREBOA/huertita
 
 ## Resumen de adecuaciones respecto del Parcial 1
 
