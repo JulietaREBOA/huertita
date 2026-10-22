@@ -1,7 +1,6 @@
 # La Huertita · Entrega Parcial 2
 
 **Nombre y apellido:** Julieta Reboa
-**Legajo:** _(completar)_
 **Sitio publicado:** https://huertita-reboa.netlify.app
 **Repositorio:** https://github.com/JulietaREBOA/huertita
 
