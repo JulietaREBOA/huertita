@@ -140,12 +140,144 @@ let clima = null;
 
 async function traerClima() {
   const url = `https://api.open-meteo.com/v1/forecast?latitude=${ciudad.lat}&longitude=${ciudad.lon}` +
-    "&current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m" +
-    "&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,precipitation_probability_max,et0_fao_evapotranspiration,wind_speed_10m_max" +
+    "&current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m,is_day" +
+    "&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,precipitation_probability_max,et0_fao_evapotranspiration,wind_speed_10m_max,sunrise,sunset" +
     "&past_days=2&forecast_days=6&timezone=auto";
   const r = await fetch(url);
   if (!r.ok) throw new Error("clima");
   return r.json();
+}
+
+// Momento del día y posición del sol (o la luna) sobre el arco, con la hora local de la ciudad.
+function momentoDelDia() {
+  const a = clima.current, d = clima.daily;
+  const ahora = new Date(a.time), sale = new Date(d.sunrise[2]), pone = new Date(d.sunset[2]);
+  const HORA = 3600000;
+  if (a.is_day) {
+    const f = (ahora - sale) / (pone - sale);
+    if (ahora - sale < HORA) return { nombre: "Amanecer", cielo: "dorado", f };
+    if (pone - ahora < HORA) return { nombre: "Atardecer", cielo: "dorado", f };
+    return { nombre: ahora.getHours() < 13 ? "Mañana" : "Tarde", cielo: "dia", f };
+  }
+  const [desde, hasta] = ahora < sale ? [new Date(d.sunset[1]), sale] : [pone, new Date(d.sunrise[3])];
+  return { nombre: "Noche", cielo: "noche", f: (ahora - desde) / (hasta - desde) };
+}
+
+// Arco de vidrio: un tramo de círculo que corta el borde de abajo; el astro recorre el tramo visible.
+function arco(f, noche) {
+  const cx = 200, cy = 262, r = 182, borde = Math.asin((cy - 200) / r);
+  // El astro no llega a las puntas, así no se corta contra el borde.
+  const t = Math.PI - borde - (0.06 + 0.88 * Math.max(0, Math.min(1, f))) * (Math.PI - 2 * borde);
+  const x = (cx + r * Math.cos(t)).toFixed(1), y = (cy - r * Math.sin(t)).toFixed(1);
+  const luz = noche ? "#F4F6FF" : "#FFE48A";
+  return `<svg class="clima-arco" viewBox="0 0 400 200" preserveAspectRatio="xMidYMax meet" aria-hidden="true">
+    <defs>
+      <radialGradient id="cupula" cx="50%" cy="100%" r="80%"><stop offset="0" stop-color="#fff" stop-opacity="${noche ? ".08" : ".26"}"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
+      <linearGradient id="vidrio" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity="${noche ? ".34" : ".75"}"/><stop offset="1" stop-color="#fff" stop-opacity="${noche ? ".06" : ".18"}"/></linearGradient>
+      <radialGradient id="resplandor"><stop offset="0" stop-color="${luz}" stop-opacity=".55"/><stop offset=".35" stop-color="${luz}" stop-opacity=".18"/><stop offset="1" stop-color="${luz}" stop-opacity="0"/></radialGradient>
+      <radialGradient id="astro" cx="40%" cy="38%"><stop offset="0" stop-color="#fff"/><stop offset=".55" stop-color="${noche ? "#F1F2F6" : "#FFF1B0"}"/><stop offset="1" stop-color="${noche ? "#C9CCD6" : "#FFC93D"}"/></radialGradient>
+      <filter id="brillo" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="6"/></filter>
+    </defs>
+    <circle cx="${cx}" cy="${cy}" r="${r - 9}" fill="url(#cupula)"/>
+    <circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="#fff" stroke-opacity="${noche ? ".08" : ".22"}" stroke-width="26" filter="url(#brillo)"/>
+    <circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="url(#vidrio)" stroke-width="15"/>
+    <circle cx="${cx}" cy="${cy}" r="${r + 7}" fill="none" stroke="#fff" stroke-opacity="${noche ? ".18" : ".45"}" stroke-width="1"/>
+    <g class="astro">
+      <circle cx="${x}" cy="${y}" r="120" fill="url(#resplandor)"/>
+      <circle cx="${x}" cy="${y}" r="24" fill="${luz}" opacity=".7" filter="url(#brillo)"/>
+      <circle cx="${x}" cy="${y}" r="12" fill="url(#astro)"/>
+    </g>
+  </svg>`;
+}
+
+// Tiempo que se dibuja en el cielo, a partir del código WMO de Open-Meteo.
+function tiempoDe(codigo) {
+  if (codigo === 0) return "despejado";
+  if (codigo <= 2) return "algo";
+  if (codigo === 3) return "nublado";
+  if (codigo <= 48) return "niebla";
+  if (codigo <= 57) return "llovizna";
+  if (codigo <= 67 || (codigo >= 80 && codigo <= 82)) return "lluvia";
+  if (codigo <= 77 || codigo === 85 || codigo === 86) return "nieve";
+  return "tormenta";
+}
+
+// Un cúmulo: base chata y copos que suben hacia el centro; el filtro le da relieve con luz de arriba.
+function cumulo(semilla) {
+  let h = '<ellipse cx="0" cy="18" rx="150" ry="30"/>';
+  for (let i = 0; i < 13; i++) {
+    const t = i / 12, alto = Math.sin(Math.PI * t);
+    const r = 22 + alto * 34 + ((i * semilla * 7) % 11);
+    h += `<circle cx="${Math.round(-135 + 270 * t)}" cy="${Math.round(10 - alto * 38 - ((i * semilla * 5) % 9))}" r="${Math.round(r)}"/>`;
+  }
+  return h;
+}
+// Dónde va cada nube (x, y, escala) según cuánto está cubierto el cielo.
+const NUBES = {
+  pocas: [[262, 136, .46], [86, 176, .24]],
+  muchas: [[118, 142, .46], [300, 132, .5], [214, 184, .4]],
+};
+
+// Nubes, lluvia, gotas en el vidrio, copos o estrellas por encima del arco y por debajo del texto.
+function capasDelTiempo(tiempo, noche) {
+  const cuales = { algo: "pocas", nublado: "muchas", llovizna: "muchas", lluvia: "muchas", nieve: "muchas", tormenta: "muchas" }[tiempo];
+  const caen = { llovizna: 34, lluvia: 60, tormenta: 66, nieve: 30 }[tiempo] || 0;
+  const mojado = ["llovizna", "lluvia", "tormenta"].includes(tiempo);
+  let dibujo = "";
+  if (noche && (tiempo === "despejado" || tiempo === "algo")) {
+    dibujo += Array.from({ length: 22 }, (_, i) =>
+      `<circle class="estrella" cx="${(i * 71) % 400}" cy="${8 + ((i * 37) % 120)}" r="${i % 4 ? .7 : 1.2}" style="--i:${i}"/>`).join("");
+  }
+  if (cuales) {
+    dibujo += NUBES[cuales].map(([x, y, e], i) =>
+      `<g transform="translate(${x} ${y}) scale(${e})" filter="url(#nube-real)" fill="url(#nube-tono)">${cumulo(i + 1)}</g>`).join("");
+  }
+  let html = `<svg class="clima-tiempo" viewBox="0 0 400 260" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <defs>
+      <linearGradient id="nube-tono" x1="0" y1="0" x2="0" y2="1"><stop offset=".25" style="stop-color:var(--nube)"/><stop offset="1" style="stop-color:var(--nube-sombra)"/></linearGradient>
+      <filter id="nube-real" x="-30%" y="-40%" width="160%" height="180%" color-interpolation-filters="sRGB">
+        <feTurbulence type="fractalNoise" baseFrequency=".02" numOctaves="4" seed="4" result="ruido"/>
+        <feDisplacementMap in="SourceGraphic" in2="ruido" scale="25" xChannelSelector="R" yChannelSelector="G" result="forma"/>
+        <feGaussianBlur in="forma" stdDeviation="4" result="suave"/>
+        <feTurbulence type="fractalNoise" baseFrequency=".012" numOctaves="3" seed="11" result="detalle"/>
+        <feGaussianBlur in="detalle" stdDeviation="3" result="detalle2"/>
+        <feComposite in="detalle2" in2="suave" operator="arithmetic" k1="1" result="alto"/>
+        <feDiffuseLighting in="alto" surfaceScale="4" diffuseConstant="1" lighting-color="#fff" result="luz"><feDistantLight azimuth="250" elevation="55"/></feDiffuseLighting>
+        <feComponentTransfer in="luz" result="luz2"><feFuncR type="linear" slope=".55" intercept=".52"/><feFuncG type="linear" slope=".55" intercept=".52"/><feFuncB type="linear" slope=".55" intercept=".53"/></feComponentTransfer>
+        <feComposite in="luz2" in2="suave" operator="arithmetic" k1="1"/>
+      </filter>
+    </defs>${dibujo}</svg>`;
+  if (caen) {
+    const clase = tiempo === "nieve" ? "copo" : "gota";
+    // Un tercio va adelante: más largas, más claras y más rápidas.
+    html += `<div class="clima-caen">${Array.from({ length: caen }, (_, i) =>
+      `<span class="${clase}${i % 3 === 0 ? " cerca" : ""}" style="left:${12 + ((i * 37) % 76)}%;--retraso:${-((i * 53) % 100) / 100}s;--dur:${0.5 + ((i * 29) % 40) / 100}s"></span>`).join("")}</div>`;
+  }
+  if (mojado) {
+    html += `<div class="clima-vidrio">${Array.from({ length: 18 }, (_, i) =>
+      `<span style="left:${(i * 43) % 96 + 2}%;top:${(i * 29) % 70 + 4}%;--t:${3 + ((i * 17) % 8)}px"></span>`).join("")}</div>`;
+  }
+  if (tiempo === "niebla") html += `<div class="clima-niebla"><span></span><span></span><span></span></div>`;
+  if (tiempo === "tormenta") html += `<div class="clima-relampago"></div>`;
+  return html;
+}
+
+// Línea ondulada con la máxima de cada día, como un horizonte de temperaturas.
+function ondaDeMaximas(dias) {
+  const max = Math.max(...dias.map((d) => d.t)), min = Math.min(...dias.map((d) => d.t));
+  const puntos = dias.map((d, i) => ({ ...d, x: 10 + i * 20, y: max === min ? 50 : 70 - ((d.t - min) / (max - min)) * 40 }));
+  // Curva suave que pasa por todos los puntos y sale por los bordes.
+  const p = [{ x: -10, y: puntos[0].y }, ...puntos, { x: 110, y: puntos.at(-1).y }];
+  let d = `M${p[0].x},${p[0].y}`;
+  for (let i = 0; i < p.length - 1; i++) {
+    const a = p[i - 1] || p[i], b = p[i], c = p[i + 1], e = p[i + 2] || c;
+    d += ` C${b.x + (c.x - a.x) / 6},${b.y + (c.y - a.y) / 6} ${c.x - (e.x - b.x) / 6},${c.y - (e.y - b.y) / 6} ${c.x},${c.y}`;
+  }
+  return `<div class="clima-onda" aria-label="Máximas de los próximos cinco días">
+    <svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d="${d}" vector-effect="non-scaling-stroke"/></svg>
+    ${puntos.map((q, i) => `<div class="onda-punto${i === 0 ? " hoy" : ""}" style="left:${q.x}%;top:${q.y}%" aria-label="${q.dia}: ${q.desc}, ${q.t}°">
+      <b>${q.t}°</b><i></i><small>${q.dia}</small></div>`).join("")}
+  </div>`;
 }
 
 function pintarClima() {
@@ -154,23 +286,32 @@ function pintarClima() {
   caja.querySelector(".ciudad span").textContent = ciudad.nombre;
   const cuerpo = caja.querySelector(".clima-cuerpo");
   if (!clima) {
-    cuerpo.innerHTML = `<p class="estado">Sin datos del clima por ahora</p><p class="detalle">Revisá la conexión o probá con otra ciudad.</p>`;
+    cuerpo.innerHTML = `<div class="clima-cielo" data-cielo="nublado"><div class="clima-arriba"><div><p class="estado">Sin datos</p><p class="momento">Revisá la conexión o probá con otra ciudad.</p></div></div></div>`;
     return;
   }
   const a = clima.current, d = clima.daily;
-  const [estado, ic] = describir(a.weather_code);
+  const [estado] = describir(a.weather_code);
+  const m = momentoDelDia();
+  // De día, el cielo se pone gris si está cubierto o llueve.
+  const tiempo = tiempoDe(a.weather_code);
+  const cielo = m.cielo === "dia" && a.weather_code >= 3 ? (a.weather_code >= 51 ? "lluvia" : "nublado") : m.cielo;
   const dias = d.time.slice(2, 7).map((t, i) => {
-    const k = i + 2, fecha = deISO(t);
-    const [, icd] = describir(d.weather_code[k]);
-    return `<div class="${i === 0 ? "hoy" : ""}"><small>${i === 0 ? "Hoy" : DIAS_SEMANA[fecha.getDay()]}</small>${icono(icd)}<b>${Math.round(d.temperature_2m_max[k])}°</b><small>${Math.round(d.temperature_2m_min[k])}°</small><small>${d.precipitation_probability_max[k] ?? 0}% lluvia</small></div>`;
-  }).join("");
+    const k = i + 2;
+    return { dia: i === 0 ? "Hoy" : DIAS_SEMANA[deISO(t).getDay()], desc: describir(d.weather_code[k])[0], t: Math.round(d.temperature_2m_max[k]) };
+  });
   cuerpo.innerHTML = `
-    <div class="ahora">${icono(ic)}<div><div class="temp">${Math.round(a.temperature_2m)}<sup>°C</sup></div></div></div>
-    <div><p class="estado">${estado}</p><p class="detalle">Máxima ${Math.round(d.temperature_2m_max[2])}°, mínima ${Math.round(d.temperature_2m_min[2])}°, humedad ${a.relative_humidity_2m}% y viento de ${Math.round(a.wind_speed_10m)} km/h</p></div>
-    <div class="pronostico" aria-label="Pronóstico de cinco días">${dias}</div>`;
+    <div class="clima-cielo" data-cielo="${cielo}" data-tiempo="${tiempo}">
+      ${arco(m.f, m.cielo === "noche")}
+      ${capasDelTiempo(tiempo, m.cielo === "noche")}
+      <div class="clima-arriba">
+        <div><p class="estado">${estado}</p><p class="momento">${m.nombre}</p></div>
+        <div class="clima-temp"><p class="temp">${Math.round(a.temperature_2m)}<span>°</span></p>
+          <p class="clima-datos">Viento ${Math.round(a.wind_speed_10m)} km/h<br>Humedad ${a.relative_humidity_2m}%</p></div>
+      </div>
+    </div>
+    ${ondaDeMaximas(dias)}`;
 }
 
-// Balance de agua: lo que la huerta pierde (evapotranspiración) contra lo que llovió o va a llover.
 function calcularRiego() {
   const d = clima.daily;
   const perdida = d.et0_fao_evapotranspiration[0] + d.et0_fao_evapotranspiration[1] + d.et0_fao_evapotranspiration[2];
@@ -223,50 +364,66 @@ function pintarRiego() {
   }
   const r = calcularRiego();
   caja.classList.toggle("seco", r.seco);
-  const total = Math.max(r.perdida, r.lluvia, 1);
+  // Pluviómetro: el agua es la lluvia que ya cayó; la marca, lo que la huerta perdió y hay que reponer.
+  const escala = Math.max(r.perdida, r.lluvia, 4) * 1.18;
+  const nivel = Math.min(100, (r.lluvia / escala) * 100);
+  const meta = Math.min(100, (r.perdida / escala) * 100);
+  const falta = Math.max(0, r.perdida - r.lluvia);
   cuerpo.innerHTML = `
     <p class="veredicto">${r.veredicto}</p>
-    ${r.litros ? `<div class="cantidad"><b>${r.litros} L</b><span>por metro cuadrado de cantero</span></div>` : ""}
-    <ul class="razones">${r.razones.map((x) => `<li class="${x.c}">${x.t}</li>`).join("")}</ul>
-    <div class="balance" aria-hidden="true">
-      <div class="pista"><i class="lluvia" style="width:${Math.min(100, (r.lluvia / total) * 100)}%"></i><i class="falta" style="width:${Math.min(100, (Math.max(0, r.perdida - r.lluvia) / total) * 100)}%"></i></div>
-      <small><span>Lluvia ${r.lluvia.toFixed(0)} mm</span><span>Falta ${Math.max(0, r.perdida - r.lluvia).toFixed(0)} mm</span></small>
-    </div>`;
+    <div class="riego-medio">
+      <div class="cantidad">${r.litros
+        ? `<b>${r.litros}<span>L</span></b><small>por metro cuadrado<br>de cantero</small>`
+        : `<b>0<span>L</span></b><small>por ahora<br>no hace falta</small>`}</div>
+      <div class="pluvio" role="img" aria-label="Llovieron ${r.lluvia.toFixed(0)} mm de los ${r.perdida.toFixed(0)} mm que perdió la huerta; faltan ${falta.toFixed(0)} mm">
+        <div class="pluvio-tubo">
+          <div class="pluvio-agua" style="height:${nivel}%"><svg viewBox="0 0 120 10" preserveAspectRatio="none" aria-hidden="true"><path d="M0 5 Q15 0 30 5 T60 5 T90 5 T120 5 V10 H0Z"/></svg></div>
+          <div class="pluvio-meta" style="bottom:${meta}%"></div>
+          <div class="pluvio-brillo"></div>
+        </div>
+        <div class="pluvio-marcas" aria-hidden="true">
+          <span style="bottom:${meta}%"><b>${r.perdida.toFixed(0)} mm</b> necesita</span>
+          <span class="lluvia" style="bottom:${nivel}%"><b>${r.lluvia.toFixed(0)} mm</b> llovió</span>
+        </div>
+      </div>
+    </div>
+    <ul class="razones">${r.razones.map((x) => `<li class="${x.c}">${x.t}</li>`).join("")}</ul>`;
 }
 
 // ---------- consejo del día ----------
 // Juli: verificar contra La Huerta Orgánica y Mi casa, mi huerta.
 const CONSEJOS = [
-  "Cubrí el suelo con paja o pasto seco: guarda la humedad y frena los yuyos.",
-  "Sembrá un poco cada quince días en lugar de todo junto, así cosechás de a poco.",
-  "Intercalá flores como la caléndula y el copete: atraen a los bichos que te ayudan.",
-  "Revisá el envés de las hojas: ahí empiezan casi todas las plagas.",
-  "Sumá un puñado de compost al pie de las plantas que están dando fruto.",
-  "Rotá las familias: donde hubo tomate, la próxima va una hoja o una legumbre.",
-  "Desmalezá con la tierra húmeda, sale la raíz entera.",
-  "Anotá qué sembraste y cuándo. Tu propio calendario vale más que cualquier tabla.",
-  "Las aromáticas en los bordes alejan a muchas plagas y te dan cosecha todo el año.",
-  "Juntá agua de lluvia: las plantas la prefieren a la de la canilla.",
-  "Una planta de albahaca al lado de cada tomate los ayuda a los dos.",
-  "Si una hoja tiene manchas, sacala y llevala lejos de la compostera.",
-  "Dejá florecer una lechuga y te va a dar semilla para el año que viene.",
-  "Hacé hoyos con un palito para el riego profundo: la raíz baja a buscar el agua.",
-  "Cosechá a la mañana temprano, cuando las hojas están más firmes.",
-  "Tutorá antes de que haga falta. Atar una planta vencida le quiebra el tallo.",
-  "El rabanito sale en un mes: es ideal para que los chicos vean la huerta crecer.",
-  "Las cáscaras de huevo molidas al pie frenan a los caracoles.",
-  "Raleá sin culpa: una zanahoria con espacio rinde más que tres apretadas.",
-  "Mirá la huerta un rato todos los días. Casi todo se resuelve si lo ves a tiempo.",
+  "Cubrí el suelo con paja: guarda la humedad.",
+  "Sembrá de a poco, cada quince días.",
+  "Sumá flores: atraen bichos que ayudan.",
+  "Revisá el envés de las hojas.",
+  "Compost al pie de las que dan fruto.",
+  "Donde hubo tomate, va una hoja o una legumbre.",
+  "Desmalezá con la tierra húmeda.",
+  "Anotá qué sembraste y cuándo.",
+  "Aromáticas en los bordes: alejan plagas.",
+  "Juntá agua de lluvia para regar.",
+  "Albahaca al lado de cada tomate.",
+  "Sacá las hojas con manchas.",
+  "Dejá florecer una lechuga: da semilla.",
+  "Regá profundo: la raíz baja a buscar agua.",
+  "Cosechá temprano, con las hojas firmes.",
+  "Tutorá antes de que haga falta.",
+  "El rabanito sale en un mes.",
+  "Cáscara de huevo molida frena caracoles.",
+  "Raleá: con espacio, rinde más.",
+  "Mirá la huerta un rato cada día.",
 ];
 let consejoActual = diaDelAno % CONSEJOS.length;
+const FOTOS_CONSEJO = ["plantines", "brotes", "manos-plantando", "maceta-tierra", "riego", "vivero"];
 
 function consejosDeHoy() {
   const lista = [];
   if (clima) {
     const r = calcularRiego();
-    if (r.helada) lista.push("Hoy puede helar: entrá las macetas o cubrí los plantines antes de que baje el sol.");
-    else if (r.tmax >= 32) lista.push(`Día de ${Math.round(r.tmax)}°: una media sombra a la tarde protege las lechugas y los plantines.`);
-    if (r.lluviaManana >= 10) lista.push("Mañana llueve fuerte: aprovechá hoy para abonar, la lluvia lo lleva a la raíz.");
+    if (r.helada) lista.push("Puede helar: cubrí los plantines.");
+    else if (r.tmax >= 32) lista.push(`${Math.round(r.tmax)}°: media sombra a la tarde.`);
+    if (r.lluviaManana >= 10) lista.push("Mañana llueve: aboná hoy.");
   }
   MIS_PLANTAS.todas().forEach((p) => {
     const c = HUERTA.porSlug(p.slug), d = diasDesde(p.fecha);
@@ -284,7 +441,9 @@ function pintarConsejo() {
   const todos = [...delDia, ...CONSEJOS];
   const i = ((consejoActual % todos.length) + todos.length) % todos.length;
   caja.querySelector(".texto").textContent = todos[i];
-  caja.querySelector(".cual").textContent = `${i + 1} de ${todos.length}`;
+  // Cada consejo con su foto de huerta.
+  const foto = caja.querySelector(".consejo-foto img");
+  if (foto) foto.src = `${BASE}imgs/fotos/${FOTOS_CONSEJO[i % FOTOS_CONSEJO.length]}.webp`;
 }
 
 // ---------- tarjetas de mis plantas ----------
@@ -305,7 +464,7 @@ function pintarPlantas() {
     const c = HUERTA.porSlug(p.slug), d = Math.max(0, diasDesde(p.fecha));
     const e = HUERTA.etapa(c, d), faltan = Math.max(0, c.dias - d);
     const ultima = p.novedades[0];
-    return `<div class="col-sm-6 col-lg-4 col-xl-3">
+    return `<div class="col-6 col-md-4 col-lg-3 col-xl-2">
       <button class="planta" type="button" data-planta="${p.id}" aria-label="Abrir el diario de ${p.nombre}">
         <div class="foto" style="--tono:${HUERTA.FAMILIAS[c.familia].tono}">${fotoCultivo(p.slug, "recorte")}<span class="chip">${e.nombre}</span>${anillo(d / c.dias)}</div>
         <div class="cuerpo">
@@ -316,7 +475,7 @@ function pintarPlantas() {
         </div>
       </button>
     </div>`;
-  }).join("") + `<div class="col-sm-6 col-lg-4 col-xl-3 d-flex flex-column">
+  }).join("") + `<div class="col-6 col-md-4 col-lg-3 col-xl-2 d-flex flex-column">
       <button class="planta vacia flex-grow-1" type="button" data-bs-toggle="modal" data-bs-target="#modal-planta">
         <span class="boton-redondo lima" aria-hidden="true">+</span>
         <strong>${lista.length ? "Sumar otra planta" : "Sumá tu primera planta"}</strong>

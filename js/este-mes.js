@@ -54,12 +54,19 @@ function dibujarDial() {
     return `<circle cx="${c + Math.cos(a) * 82}" cy="${c + Math.sin(a) * 82}" r="${i % 5 ? 0.9 : 1.6}" fill="rgba(251,248,236,.45)"/>`;
   }).join("");
   caja.innerHTML = `<svg viewBox="0 0 300 300" role="img" aria-label="Día ${hoy.getDate()} de ${datos.mes}, ${Math.round(f * 100)} % del año">
-    <circle class="pista" cx="${c}" cy="${c}" r="${r}" fill="none" stroke-width="3"/>
-    <circle class="avance" cx="${c}" cy="${c}" r="${r}" fill="none" stroke-width="5" stroke-linecap="round" stroke-dasharray="${l * f} ${l}" transform="rotate(-90 ${c} ${c})"/>
-    <circle cx="${c + Math.cos(ang) * r}" cy="${c + Math.sin(ang) * r}" r="9" fill="#D3E36A" stroke="#FBF8EC" stroke-width="3"/>
-    <circle class="centro" cx="${c}" cy="${c}" r="96"/>${puntos}${marcas}
-    <text class="numero" x="${c}" y="${c + 10}" text-anchor="middle">${String(hoy.getDate()).padStart(2, "0")}/${String(hoy.getMonth() + 1).padStart(2, "0")}</text>
-    <text class="rotulo" x="${c}" y="${c + 36}" text-anchor="middle">${datos.mes}</text>
+    <defs>
+      <linearGradient id="dial-vidrio" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FBF8EC" stop-opacity=".95"/><stop offset="1" stop-color="#FBF8EC" stop-opacity=".55"/></linearGradient>
+      <radialGradient id="dial-centro" cx="50%" cy="40%"><stop offset="0" stop-color="#FBF8EC" stop-opacity=".1"/><stop offset="1" stop-color="#FBF8EC" stop-opacity="0"/></radialGradient>
+      <filter id="dial-brillo" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="5"/></filter>
+    </defs>
+    <circle class="pista" cx="${c}" cy="${c}" r="${r}" fill="none" stroke-width="10"/>
+    <circle cx="${c}" cy="${c}" r="${r}" fill="none" stroke="#D3E36A" stroke-opacity=".35" stroke-width="12" stroke-dasharray="${l * f} ${l}" transform="rotate(-90 ${c} ${c})" filter="url(#dial-brillo)"/>
+    <circle class="avance" cx="${c}" cy="${c}" r="${r}" fill="none" stroke="url(#dial-vidrio)" stroke-width="10" stroke-linecap="round" stroke-dasharray="${l * f} ${l}" transform="rotate(-90 ${c} ${c})"/>
+    <circle cx="${c}" cy="${c}" r="96" fill="url(#dial-centro)"/>${puntos}${marcas}
+    <circle cx="${c + Math.cos(ang) * r}" cy="${c + Math.sin(ang) * r}" r="18" fill="#D3E36A" opacity=".55" filter="url(#dial-brillo)"/>
+    <circle cx="${c + Math.cos(ang) * r}" cy="${c + Math.sin(ang) * r}" r="8" fill="#E6F28F" stroke="#FBF8EC" stroke-width="2"/>
+    <text class="numero" x="${c}" y="${c + 14}" text-anchor="middle">${hoy.getDate()}</text>
+    <text class="rotulo" x="${c}" y="${c + 40}" text-anchor="middle">de ${datos.mes}</text>
   </svg>`;
 }
 
@@ -67,7 +74,8 @@ function dibujarDial() {
 const contenedor = document.getElementById("cultivos-mes");
 if (contenedor) {
   document.getElementById("titulo-mes").textContent = datos.mes;
-  document.getElementById("temporada-mes").textContent = `${datos.temporada}. Se actualiza solo según la fecha.`;
+  const temporadaMes = document.getElementById("temporada-mes");
+  if (temporadaMes) temporadaMes.textContent = `${datos.temporada}. Se actualiza solo según la fecha.`;
   dibujarDial();
 
   // Tarjeta de fecha y aviso del día.
@@ -89,8 +97,7 @@ if (contenedor) {
         <div class="s1" style="flex:${p1}"><i></i></div>
         <div class="s2" style="flex:${p2}"><i></i></div>
         <div class="s3" style="flex:${p3}"><i></i></div>
-      </div>
-      <ul class="leyenda-barra"><li class="s1">Recorrido</li><li class="s2">Este mes</li><li class="s3">Resta</li></ul>`;
+      </div>`;
   }
 
   // Lista con interruptor: al marcar «Sembrado» la planta pasa a tu huerta.
@@ -102,7 +109,7 @@ if (contenedor) {
       const sembrada = mias.some((p) => p.slug === slug && esteMes(p));
       return `<div class="tarea">
         <img class="avatar" src="${BASE_IMG}imgs/cultivos/${slug}.webp" data-cultivo="${slug}" data-base="${BASE_IMG}" alt="">
-        <div><strong>${nombre}</strong><span>${forma}</span></div>
+        <div class="tarea-nombre"><strong>${nombre}</strong><span class="forma">${forma}</span></div>
         <div class="form-check form-switch">
           <input class="form-check-input" type="checkbox" role="switch" id="sembrado-${i}" data-slug="${slug}" ${sembrada ? "checked" : ""} ${HUERTA.porSlug(slug) ? "" : "disabled"}>
           <label class="form-check-label" for="sembrado-${i}">Sembrado</label>

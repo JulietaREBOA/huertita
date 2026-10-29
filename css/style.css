@@ -1614,3 +1614,463 @@ h1 em, h2 em, .remate{
 .tarjeta-n:hover, .tarjeta-catalogo:hover{ box-shadow:none; }
 .vivo::before{ box-shadow:none; }
 @media (max-width:991.98px){ .foto-redonda{ height:auto; min-height:0; aspect-ratio:4/3; } }
+
+/* =========================================================
+   Estante con libro destacado (29/10), a la manera de Grokipedia:
+   un libro que flota arriba con su tapa y una fila de lomos abajo
+   ========================================================= */
+.destacado{ display:grid; gap:28px; align-items:center; justify-items:center; padding:18px 0 34px; margin-bottom:22px; border-bottom:1px solid rgba(251,248,236,.12); }
+@media (min-width:768px){ .destacado{ grid-template-columns:auto minmax(0,1fr); gap:clamp(36px,5vw,72px); justify-items:start; padding:28px clamp(8px,3vw,40px) 40px; } }
+
+/* el libro: una caja con tapa al frente y lomo a la izquierda */
+.dest-escena{ --alto-libro:clamp(250px,32vw,340px); --aspecto:.715; --papel:#F2EFD9; --px:0deg; --py:0deg;
+    position:relative; display:block; width:calc(var(--alto-libro) * var(--aspecto)); height:var(--alto-libro); perspective:1400px; outline:none; }
+.dest-escena:focus-visible{ outline:2px solid var(--color-lima); outline-offset:14px; border-radius:6px; }
+.dest-flota, .dest-salto{ display:block; width:100%; height:100%; transform-style:preserve-3d; }
+.dest-flota{ animation:dest-flotar 6s var(--ease) infinite alternate; }
+.dest-libro{ --d:24px; position:absolute; inset:0; display:block; transform-style:preserve-3d;
+    transform:rotateY(calc(-20deg + var(--px))) rotateX(calc(3deg + var(--py))); transition:transform .6s var(--ease); }
+.dest-escena:hover .dest-libro{ --d:24px; transform:rotateY(calc(-12deg + var(--px))) rotateX(calc(2deg + var(--py))) translateZ(10px); }
+.dest-tapa, .dest-luz, .dest-bisagra{ position:absolute; inset:0; display:block; border-radius:2px 5px 5px 2px; transform:translateZ(calc(var(--d) / 2)); }
+.dest-tapa{ overflow:hidden; background:var(--papel); box-shadow:0 1px 0 rgba(255,255,255,.08) inset; }
+.dest-tapa img{ width:100%; height:100%; object-fit:cover; display:block; }
+.dest-tapa.apaisada img{ object-fit:contain; padding:12% 8%; filter:drop-shadow(0 6px 10px rgba(0,0,0,.25)); }
+.dest-sin-tapa{ position:absolute; inset:0; display:flex; flex-direction:column; justify-content:flex-end; gap:8px; padding:22px 18px; }
+.dest-sin-tapa b{ font-family:var(--serif); font-weight:400; font-size:26px; line-height:1.05; }
+.dest-sin-tapa small{ font-size:11px; font-weight:700; letter-spacing:.1em; opacity:.75; }
+.dest-tapa.claro .dest-sin-tapa{ color:#FBF8EC; }
+.dest-tapa.oscuro .dest-sin-tapa{ color:#2A1A0E; }
+/* brillo que corre por la tapa y luz de costado */
+.dest-luz{ pointer-events:none; mix-blend-mode:soft-light;
+    background:linear-gradient(115deg, rgba(255,255,255,0) 30%, rgba(255,255,255,.55) 46%, rgba(255,255,255,0) 60%) 0 0 / 260% 100%,
+               linear-gradient(90deg, rgba(0,0,0,0) 55%, rgba(0,0,0,.28));
+    animation:dest-brillo 9s ease-in-out infinite; }
+/* bisagra: el pliegue de la tapa dura junto al lomo */
+.dest-bisagra{ pointer-events:none; right:auto; width:16px;
+    background:linear-gradient(90deg, rgba(0,0,0,.42), rgba(255,255,255,.2) 38%, rgba(0,0,0,.22) 62%, rgba(0,0,0,0)); }
+/* lomo del libro destacado: la cara izquierda, del color de su tapa */
+.dest-lomo{ position:absolute; top:0; bottom:0; left:calc(var(--d) / -2); width:var(--d); display:block; border-radius:3px 0 0 3px; transform:rotateY(90deg);
+    background:linear-gradient(90deg, rgba(0,0,0,.45), rgba(255,255,255,.1) 35%, rgba(0,0,0,.15) 70%, rgba(0,0,0,.4)), var(--papel); }
+.dest-sombra{ position:absolute; left:4%; right:-10%; bottom:-22px; height:26px; border-radius:50%; background:rgba(0,0,0,.6); filter:blur(14px); z-index:-1;
+    animation:dest-respirar 6s var(--ease) infinite alternate; }
+.dest-salto.girando{ animation:dest-girar .9s var(--ease); }
+@keyframes dest-flotar{ from{ transform:translateY(0); } to{ transform:translateY(-10px); } }
+@keyframes dest-respirar{ from{ transform:scale(1); opacity:.9; } to{ transform:scale(.88); opacity:.6; } }
+@keyframes dest-brillo{ 0%,100%{ background-position:100% 0, 0 0; } 50%{ background-position:0 0, 0 0; } }
+@keyframes dest-girar{ 0%{ transform:translateY(0) rotateY(0); } 35%{ transform:translateY(-22px) rotateY(-38deg); } 100%{ transform:translateY(0) rotateY(0); } }
+
+/* datos del libro presentado */
+.destacado .ficha-libro{ display:block; margin:0; padding:0; min-height:0; background:none; border:0; backdrop-filter:none; -webkit-backdrop-filter:none; max-width:560px; text-align:center; }
+@media (min-width:768px){ .destacado .ficha-libro{ text-align:left; } }
+.dest-rotulo{ display:flex; flex-wrap:wrap; justify-content:inherit; gap:6px 12px; align-items:center; margin:0 0 12px; font-size:12px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:rgba(251,248,236,.6); }
+.destacado .ficha-libro .dest-rotulo{ justify-content:center; }
+@media (min-width:768px){ .destacado .ficha-libro .dest-rotulo{ justify-content:flex-start; } }
+.dest-rotulo span{ letter-spacing:.02em; text-transform:none; font-size:12px; padding:3px 10px; border-radius:99px; background:rgba(211,227,106,.16); color:var(--color-lima); }
+.destacado .ficha-libro h3{ font-family:var(--serif); font-weight:400; font-size:clamp(30px,3.6vw,46px); line-height:1.02; letter-spacing:-.01em; color:var(--color-fondos); margin:0 0 18px; text-wrap:balance; }
+.destacado .ficha-libro dl{ display:flex; flex-wrap:wrap; justify-content:center; gap:6px 26px; margin:0 0 22px; }
+.destacado .ficha-libro .d-flex{ justify-content:center; }
+@media (min-width:768px){ .destacado .ficha-libro dl, .destacado .ficha-libro .d-flex{ justify-content:flex-start; } }
+.destacado .ficha-libro dt{ font-size:12px; font-weight:600; color:rgba(251,248,236,.55); }
+.destacado .ficha-libro dd{ margin:0; font-size:14px; color:rgba(251,248,236,.9); }
+.destacado .form-check-label{ color:rgba(251,248,236,.85); }
+/* pasos de los destacados, con la barra que avanza mientras corre la vuelta */
+.dest-pasos{ display:flex; gap:6px; margin-top:26px; justify-content:inherit; }
+.destacado .ficha-libro .dest-pasos{ justify-content:center; }
+@media (min-width:768px){ .destacado .ficha-libro .dest-pasos{ justify-content:flex-start; } }
+.dest-pasos button{ width:34px; height:18px; padding:8px 0; border:0; background:none; cursor:pointer; }
+.dest-pasos button span{ display:block; height:2px; border-radius:2px; background:rgba(251,248,236,.22); overflow:hidden; position:relative; }
+.dest-pasos button[aria-current="true"] span{ background:rgba(251,248,236,.35); }
+.dest-pasos button[aria-current="true"] span::after{ content:""; position:absolute; inset:0; background:var(--color-fondos); transform-origin:left; }
+.ficha-libro.corriendo .dest-pasos button[aria-current="true"] span::after{ animation:dest-avance 7s linear both; }
+.dest-pasos button:focus-visible{ outline:2px solid var(--color-lima); outline-offset:2px; border-radius:3px; }
+@keyframes dest-avance{ from{ transform:scaleX(0); } to{ transform:scaleX(1); } }
+
+/* fila de lomos: sin barra de scroll y con bordes que se desvanecen donde quedan libros */
+.estante-vista{ --izq:0px; --der:0px; position:relative; }
+.estante-vista[data-izq="1"]{ --izq:36px; }
+.estante-vista[data-der="1"]{ --der:36px; }
+.estante-vista .estante{ gap:8px; padding:56px 4px 0; min-height:380px; scrollbar-width:none; overscroll-behavior-x:contain; scroll-snap-type:none;
+    -webkit-mask-image:linear-gradient(90deg, transparent, #000 var(--izq), #000 calc(100% - var(--der)), transparent);
+            mask-image:linear-gradient(90deg, transparent, #000 var(--izq), #000 calc(100% - var(--der)), transparent); }
+.estante-vista .estante::-webkit-scrollbar{ display:none; }
+.estante-vista .estante:focus-visible{ outline:1px solid rgba(251,248,236,.3); outline-offset:4px; }
+.estante.con-elegido .lomo:not(.arriba){ opacity:.55; filter:saturate(.75); }
+.lomo{ transition:transform .35s var(--ease), opacity .25s ease, filter .25s ease; }
+/* tabla fina, como un filete de luz */
+.estante-vista .tabla-estante{ height:6px; margin:0 -8px; border-radius:2px; border-top:1px solid rgba(251,248,236,.28);
+    background:linear-gradient(180deg, rgba(251,248,236,.14), rgba(251,248,236,.04)); box-shadow:0 8px 14px -8px rgba(0,0,0,.7); }
+.mover{ width:36px; height:36px; }
+.mover:disabled{ opacity:.3; cursor:default; }
+
+/* etiqueta debajo del estante: número, título y año del lomo que mirás */
+.estante-etiqueta{ min-height:92px; padding-top:20px; display:flex; flex-direction:column; align-items:center; gap:10px; text-align:center; }
+.etq-copia{ display:flex; flex-wrap:wrap; align-items:baseline; justify-content:center; gap:6px 14px; animation:etq-entrar .28s var(--ease) both; }
+.etq-n{ font-size:13px; font-weight:600; color:rgba(251,248,236,.5); font-variant-numeric:tabular-nums; }
+.etq-titulo{ font-family:var(--serif); font-size:clamp(22px,2.4vw,28px); line-height:1.1; color:var(--color-fondos); overflow-wrap:anywhere; }
+.etq-anio{ font-size:13px; color:rgba(251,248,236,.6); font-variant-numeric:tabular-nums; }
+.etq-vacia{ font-size:14px; color:rgba(251,248,236,.6); }
+.etq-acciones{ display:flex; align-items:center; gap:14px; font-size:13px; animation:etq-entrar .28s var(--ease) both; }
+.etq-acciones a, .etq-acciones button{ color:rgba(251,248,236,.75); background:none; border:0; padding:0; text-decoration:none; }
+.etq-acciones a:hover, .etq-acciones button:hover{ color:var(--color-lima); }
+.etq-acciones button{ padding-left:14px; border-left:1px solid rgba(251,248,236,.25); }
+@keyframes etq-entrar{ from{ opacity:0; transform:translateY(4px); } to{ opacity:1; transform:none; } }
+
+@media (prefers-reduced-motion: reduce){
+    .dest-flota, .dest-sombra, .dest-luz, .etq-copia, .etq-acciones{ animation:none; }
+    .dest-libro, .lomo{ transition:none; }
+}
+
+/* lomos como en Grokipedia: título en serif de arriba hacia abajo; al pasar, el libro asoma
+   con sus hojas; al elegirlo, se abre en la misma fila y muestra la tapa */
+.estante-vista .estante{ padding-top:64px; }
+.estante-vista .lomo{ padding:16px 0 12px; justify-content:space-between;
+    transition:width .5s var(--ease), transform .35s var(--ease), padding .35s var(--ease), box-shadow .35s ease; }
+.estante-vista .lomo .titulo-lomo{ flex:none; writing-mode:vertical-rl; transform:none; text-align:start; font-family:var(--serif); font-weight:400; font-size:17px; line-height:1; letter-spacing:0;
+    max-height:calc(var(--alto) - 56px); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; transition:opacity .2s ease; }
+.estante-vista .lomo .sello{ transition:opacity .2s ease; }
+.estante.con-elegido .lomo:not(.arriba){ opacity:1; filter:none; }
+/* al pasar: el libro sale un poco y deja ver el bloque de hojas entre las tapas */
+.estante-vista .lomo::before{ transition:height .35s var(--ease), top .35s var(--ease), left .35s var(--ease), right .35s var(--ease); }
+.estante-vista .lomo:not(.arriba):hover, .estante-vista .lomo:not(.arriba):focus-visible{ transform:translateY(-44px); padding-top:62px; }
+.estante-vista .lomo:not(.arriba):hover::before, .estante-vista .lomo:not(.arriba):focus-visible::before{ top:4px; left:5px; right:5px; height:40px; border-radius:1px;
+    background:linear-gradient(90deg, rgba(0,0,0,.12), rgba(0,0,0,0) 30%, rgba(0,0,0,.1)), repeating-linear-gradient(90deg, #F6EFDA 0 1px, #E2D6B4 1px 2px); box-shadow:inset 0 2px 3px rgba(0,0,0,.18); }
+/* elegido: la tapa ocupa el lugar del lomo y empuja a los vecinos */
+.lomo-tapa{ position:absolute; inset:0; z-index:2; display:block; overflow:hidden; border-radius:2px 4px 4px 2px; background:var(--lomo); opacity:0; pointer-events:none; transition:opacity .25s ease; }
+.lomo-tapa img{ width:100%; height:100%; object-fit:cover; display:block; }
+.lomo-tapa.apaisada img{ object-fit:contain; padding:14% 8%; }
+.lomo-tapa::before{ content:""; position:absolute; inset:0 auto 0 0; width:12px; z-index:1; background:linear-gradient(90deg, rgba(0,0,0,.4), rgba(255,255,255,.18) 45%, rgba(0,0,0,.18) 70%, rgba(0,0,0,0)); }
+.lomo-tapa-pie{ position:absolute; left:0; right:0; bottom:0; display:flex; flex-direction:column; gap:4px; padding:18px 16px 16px 22px; text-align:left; font-family:var(--serif); font-size:24px; line-height:1.05; }
+.lomo-tapa-pie small{ font-family:"Hanken Grotesk", sans-serif; font-size:11px; font-weight:600; letter-spacing:.06em; opacity:.75; }
+.lomo.claro .lomo-tapa-pie{ color:#FBF8EC; }
+.lomo.oscuro .lomo-tapa-pie{ color:#2A1A0E; }
+.estante-vista .lomo.arriba{ width:var(--tapa-ancho); transform:translateY(-4px); box-shadow:0 26px 34px -16px rgba(0,0,0,.75); }
+.lomo.arriba .lomo-tapa{ opacity:1; transition-delay:.12s; }
+.lomo.arriba .titulo-lomo, .lomo.arriba .sello{ opacity:0; }
+.lomo.arriba::before{ opacity:0; }
+
+/* =========================================================
+   Clima como widget (29/10): cielo según la hora, arco con el sol
+   o la luna y marco claro, a la manera del «Weather app widget»
+   ========================================================= */
+.clima-widget{ height:100%; display:flex; flex-direction:column; gap:10px; padding:10px; border-radius:40px;
+    background:#FBF8EC; box-shadow:inset 0 0 0 1px rgba(42,26,14,.06), 0 2px 4px rgba(42,26,14,.05), 0 30px 50px -30px rgba(42,26,14,.4); }
+.clima-cielo{ --cielo:linear-gradient(180deg,#3E9FEF 0%,#86CBFA 100%); position:relative; overflow:hidden; border-radius:30px; min-height:210px;
+    background:var(--cielo); color:#fff; isolation:isolate; transition:background .6s ease; }
+.clima-cielo[data-cielo="dorado"]{ --cielo:linear-gradient(180deg,#7D6E96 0%,#C98A72 55%,#F69B4C 100%); }
+.clima-cielo[data-cielo="noche"]{ --cielo:linear-gradient(180deg,#000 0%,#121212 100%); }
+.clima-cielo[data-cielo="nublado"]{ --cielo:linear-gradient(180deg,#7F93A6 0%,#BAC7D2 100%); }
+.clima-cielo[data-cielo="lluvia"]{ --cielo:linear-gradient(180deg,#56677A 0%,#94A3B1 100%); }
+.clima-arriba{ position:relative; z-index:1; display:flex; justify-content:space-between; align-items:flex-start; gap:12px; padding:22px 26px 0; }
+.clima-cielo .momento{ margin:0; font-size:24px; font-weight:500; line-height:1.1; letter-spacing:-.01em; color:#fff; }
+.clima-cielo .estado{ margin:4px 0 0; font-size:15px; font-weight:400; color:rgba(255,255,255,.75); }
+.clima-cielo .temp{ margin:0; font-size:30px; font-weight:300; line-height:1; letter-spacing:-.02em; color:#fff; font-variant-numeric:tabular-nums; white-space:nowrap; }
+.clima-cielo .temp span{ font-size:.8em; opacity:.8; margin-left:2px; }
+.clima-arco{ position:absolute; left:-6%; bottom:0; width:112%; height:auto; aspect-ratio:2 / 1; z-index:0; }
+/* el cielo ocupa todo el alto que deja la fila, sin huecos abajo */
+.clima-widget .clima-cuerpo{ flex:1; display:flex; flex-direction:column; gap:10px; }
+.clima-widget .clima-cielo{ flex:1; }
+.clima-dias{ list-style:none; margin:0; padding:4px 6px 0; display:grid; grid-template-columns:repeat(5,1fr); gap:4px; }
+.clima-dias li{ display:flex; flex-direction:column; align-items:center; gap:3px; padding:8px 0; border-radius:16px; color:var(--color-textos); font-size:12px; }
+.clima-dias li.hoy{ background:var(--color-fondos-alt); color:var(--color-titulos); }
+.clima-dias svg{ width:20px; height:20px; }
+.clima-dias b{ font-size:14px; font-weight:600; font-variant-numeric:tabular-nums; }
+.clima-pie{ display:flex; justify-content:space-between; align-items:center; gap:10px; padding:0 10px 4px; }
+.clima-widget .ciudad{ display:inline-flex; align-items:center; gap:6px; border:1px solid var(--color-borde); background:transparent; color:var(--color-titulos);
+    border-radius:99px; padding:6px 12px; font:inherit; font-size:13px; font-weight:500; cursor:pointer; }
+.clima-widget .ciudad:hover{ background:var(--color-fondos-alt); }
+.clima-widget .fuente-clima{ margin:0; font-size:12px; color:var(--color-suave); }
+.clima-widget .fuente-clima a{ color:inherit; }
+
+/* consejo del día, corto */
+.consejo{ gap:10px; }
+.consejo-rotulo{ margin:0; font-size:12px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--color-suave); }
+.consejo .texto{ font-family:var(--serif); font-weight:400; font-size:clamp(26px,2.4vw,32px); line-height:1.1; letter-spacing:-.005em; text-wrap:balance; }
+.consejo .pasar{ align-items:center; }
+.consejo .pasar button{ width:36px; height:36px; }
+.consejo-fuente{ margin-left:auto; font-size:12px; color:var(--color-suave); }
+
+/* tiempo dibujado en el cielo: nubes con volumen, llovizna, lluvia, nieve, niebla, tormenta y estrellas */
+.clima-tiempo, .clima-caen, .clima-niebla, .clima-relampago{ position:absolute; inset:0; pointer-events:none; z-index:1; }
+.clima-tiempo{ width:100%; height:100%; }
+.clima-caen{ overflow:hidden; rotate:7deg; inset:38% -6% -10%; }
+.clima-arriba{ z-index:2; text-shadow:0 1px 12px rgba(0,0,0,.12); }
+/* colores de cada nube según el cielo: tono arriba y sombra abajo */
+.clima-cielo{ --nube:#FFFFFF; --nube-sombra:#C7D3E0; }
+.clima-cielo[data-tiempo="nublado"], .clima-cielo[data-tiempo="llovizna"], .clima-cielo[data-tiempo="nieve"]{ --nube:#F1F4F7; --nube-sombra:#8E9DAD; }
+.clima-cielo[data-tiempo="lluvia"], .clima-cielo[data-tiempo="tormenta"]{ --nube:#D5DCE3; --nube-sombra:#56626F; }
+.clima-cielo[data-cielo="dorado"]{ --nube:#FFF0E2; --nube-sombra:#A77F8E; }
+.clima-cielo[data-cielo="noche"]{ --nube:#59606C; --nube-sombra:#14171C; }
+/* las nubes se mueven todas juntas, despacio (solo se desplaza la capa, el filtro no se recalcula) */
+.clima-tiempo{ animation:nube-va 40s ease-in-out infinite alternate; }
+@keyframes nube-va{ from{ transform:translateX(-10px); } to{ transform:translateX(12px); } }
+.estrella{ fill:#fff; opacity:.5; animation:titila 4s ease-in-out calc(var(--i) * -.37s) infinite alternate; }
+@keyframes titila{ from{ opacity:.15; } to{ opacity:.8; } }
+/* con el cielo cubierto, el sol queda apagado detrás de las nubes */
+.clima-cielo:is([data-tiempo="nublado"],[data-tiempo="llovizna"],[data-tiempo="lluvia"],[data-tiempo="tormenta"],[data-tiempo="nieve"],[data-tiempo="niebla"]) .astro{ opacity:.4; }
+/* gotas en dos planos: las de atrás finas y lentas, las de adelante largas y claras */
+.gota{ position:absolute; top:-30px; width:1px; height:12px; border-radius:2px; background:linear-gradient(rgba(255,255,255,0), rgba(255,255,255,.55));
+    animation:cae var(--dur) linear var(--retraso) infinite; }
+.gota.cerca{ width:1.6px; height:22px; background:linear-gradient(rgba(255,255,255,0), rgba(255,255,255,.85)); animation-duration:calc(var(--dur) * .75); }
+.clima-cielo[data-tiempo="llovizna"] .gota{ height:7px; animation-duration:calc(var(--dur) * 1.8); }
+.clima-cielo[data-tiempo="llovizna"] .gota.cerca{ height:11px; }
+.copo{ position:absolute; top:-10px; width:4px; height:4px; border-radius:50%; background:#fff; opacity:.8; filter:blur(.4px);
+    animation:cae calc(var(--dur) * 6) linear var(--retraso) infinite, copo-va 2.6s ease-in-out infinite alternate; }
+.copo.cerca{ width:6px; height:6px; filter:blur(1px); }
+@keyframes cae{ from{ transform:translateY(0); } to{ transform:translateY(480px); } }
+@keyframes copo-va{ from{ margin-left:-7px; } to{ margin-left:7px; } }
+/* bruma abajo cuando llueve */
+.clima-cielo:is([data-tiempo="lluvia"],[data-tiempo="tormenta"],[data-tiempo="llovizna"]) .clima-caen::after{ content:""; position:absolute; left:0; right:0; bottom:0; height:40%;
+    background:linear-gradient(rgba(255,255,255,0), rgba(255,255,255,.14)); }
+/* niebla: bandas claras que se corren despacio */
+.clima-niebla span{ position:absolute; left:-20%; width:140%; height:30px; border-radius:30px; background:rgba(255,255,255,.42); filter:blur(10px);
+    animation:niebla-va 16s ease-in-out infinite alternate; }
+.clima-niebla span:nth-child(1){ top:46%; }
+.clima-niebla span:nth-child(2){ top:63%; animation-delay:-6s; }
+.clima-niebla span:nth-child(3){ top:80%; animation-delay:-11s; }
+@keyframes niebla-va{ from{ transform:translateX(-24px); } to{ transform:translateX(24px); } }
+/* tormenta: un destello cada tanto */
+.clima-relampago{ background:radial-gradient(70% 60% at 60% 20%, #fff, rgba(255,255,255,0)); opacity:0; animation:relampago 8s linear infinite; }
+@keyframes relampago{ 0%,90%,93%,100%{ opacity:0; } 91%,94%{ opacity:.7; } }
+
+/* terminación premium: cielos con más profundidad, grano fino, vidrio interior y marco con bisel */
+.clima-cielo{ --cielo:linear-gradient(180deg,#2B86E6 0%,#4FA9F2 45%,#9DD5FB 100%); }
+.clima-cielo[data-cielo="dorado"]{ --cielo:linear-gradient(180deg,#4F4C7A 0%,#8C6E8E 35%,#D88A6E 68%,#F6A65C 100%); }
+.clima-cielo[data-cielo="noche"]{ --cielo:radial-gradient(120% 80% at 50% 110%, #1A2030 0%, rgba(26,32,48,0) 60%), linear-gradient(180deg,#000 0%,#05070C 100%); }
+.clima-cielo[data-cielo="nublado"]{ --cielo:linear-gradient(180deg,#6F8397 0%,#97A8B8 50%,#C4CFD9 100%); }
+.clima-cielo[data-cielo="lluvia"]{ --cielo:linear-gradient(180deg,#3E4C5B 0%,#64788A 55%,#8FA0AF 100%); }
+.clima-cielo::before{ content:""; position:absolute; inset:0; z-index:1; pointer-events:none; opacity:.09; mix-blend-mode:overlay;
+    background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E"); }
+.clima-cielo::after{ content:""; position:absolute; inset:0; z-index:3; pointer-events:none; border-radius:inherit;
+    box-shadow:inset 0 0 0 1px rgba(0,0,0,.08), inset 0 10px 18px -8px rgba(0,0,0,.22), inset 0 -1px 0 rgba(255,255,255,.18); }
+.clima-widget{ background:linear-gradient(160deg,#FFFFFF 0%,#F6F2E6 45%,#E9E4D4 100%);
+    box-shadow:inset 0 1.5px 0 #fff, inset 0 -1.5px 0 rgba(42,26,14,.08), inset 0 0 0 1px rgba(42,26,14,.05),
+               0 1px 2px rgba(42,26,14,.08), 0 12px 24px -12px rgba(42,26,14,.25), 0 40px 70px -40px rgba(42,26,14,.45); }
+.clima-cielo .momento{ font-weight:500; font-size:26px; }
+.clima-cielo .temp{ font-weight:200; font-size:36px; }
+.clima-cielo .estado{ color:rgba(255,255,255,.78); }
+
+@media (prefers-reduced-motion: reduce){
+    .clima-tiempo, .estrella, .clima-niebla span, .clima-relampago{ animation:none; }
+    .gota, .copo{ animation:none; top:auto; }
+    .gota:nth-child(odd), .copo:nth-child(odd){ top:30%; }
+    .gota:nth-child(even), .copo:nth-child(even){ top:62%; }
+}
+
+/* tipografía a la manera del «Weather Forecast»: estado grande y fino que se desvanece, temperatura enorme */
+.clima-arriba{ padding:22px 24px 0; align-items:flex-start; }
+.clima-cielo .estado{ margin:0; font-size:clamp(28px,2.6vw,36px); font-weight:300; line-height:1.02; letter-spacing:-.02em; max-width:9ch; text-wrap:balance;
+    background:linear-gradient(90deg,#fff 60%,rgba(255,255,255,.4)); -webkit-background-clip:text; background-clip:text; color:transparent; }
+.clima-cielo .momento{ margin:8px 0 0; font-size:13px; font-weight:400; letter-spacing:.01em; color:rgba(255,255,255,.78); }
+.clima-temp{ text-align:right; }
+.clima-cielo .temp{ font-size:clamp(52px,5vw,68px); font-weight:200; letter-spacing:-.04em; line-height:.9; }
+.clima-cielo .temp span{ font-size:.5em; vertical-align:top; margin-left:2px; opacity:.9; }
+.clima-datos{ margin:8px 0 0; font-size:10.5px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; line-height:1.6; color:rgba(255,255,255,.9); text-shadow:0 1px 6px rgba(0,30,60,.35); }
+/* gotas quietas sobre el vidrio, con brillo arriba y borde oscuro abajo */
+.clima-vidrio{ position:absolute; inset:0; z-index:2; pointer-events:none; }
+.clima-vidrio span{ position:absolute; width:var(--t); height:calc(var(--t) * 1.15); border-radius:50% 50% 48% 48%;
+    background:radial-gradient(circle at 38% 30%, rgba(255,255,255,.95) 0 14%, rgba(255,255,255,.28) 32%, rgba(255,255,255,.06) 70%);
+    box-shadow:0 1px 1.5px rgba(0,0,0,.22), inset 0 -1px 1.5px rgba(255,255,255,.35); backdrop-filter:blur(1px); -webkit-backdrop-filter:blur(1px); }
+/* onda de máximas debajo del cielo */
+.clima-onda{ position:relative; height:96px; margin:2px 14px 0; }
+.clima-onda svg{ position:absolute; inset:0; width:100%; height:100%; overflow:hidden;
+    -webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent); mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent); }
+.clima-onda path{ fill:none; stroke:rgba(42,26,14,.32); stroke-width:1.5; }
+.onda-punto{ position:absolute; transform:translate(-50%,-50%); display:grid; justify-items:center; }
+.onda-punto i{ width:8px; height:8px; border-radius:50%; background:#FBF8EC; box-shadow:0 0 0 1.5px rgba(42,26,14,.45); }
+.onda-punto b{ position:absolute; bottom:14px; font-size:14px; font-weight:500; color:var(--color-titulos); font-variant-numeric:tabular-nums; white-space:nowrap; }
+.onda-punto small{ position:absolute; top:14px; font-size:11px; color:var(--color-suave); white-space:nowrap; }
+.onda-punto.hoy i{ background:var(--color-titulos); box-shadow:0 0 0 4px rgba(42,26,14,.1); }
+.onda-punto.hoy small{ color:var(--color-titulos); font-weight:600; }
+
+/* =========================================================
+   Riego y consejo como widgets (29/10): mismo marco con bisel que el clima
+   ========================================================= */
+.widget{ height:100%; display:flex; flex-direction:column; gap:10px; padding:10px; border-radius:40px;
+    background:linear-gradient(160deg,#FFFFFF 0%,#F6F2E6 45%,#E9E4D4 100%);
+    box-shadow:inset 0 1.5px 0 #fff, inset 0 -1.5px 0 rgba(42,26,14,.08), inset 0 0 0 1px rgba(42,26,14,.05),
+               0 1px 2px rgba(42,26,14,.08), 0 12px 24px -12px rgba(42,26,14,.25), 0 40px 70px -40px rgba(42,26,14,.45); }
+.widget-pantalla{ flex:1; display:flex; flex-direction:column; gap:14px; padding:22px 24px; border-radius:30px; background:#FCFAF2;
+    box-shadow:inset 0 0 0 1px rgba(42,26,14,.06), inset 0 8px 16px -10px rgba(42,26,14,.18); }
+.widget-cabeza{ display:flex; justify-content:space-between; align-items:center; }
+.widget-rotulo{ margin:0; font-size:12px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--color-suave); }
+.gota-chip{ width:34px; height:34px; border-radius:50%; display:grid; place-items:center; background:rgba(43,134,230,.1); color:#2B86E6; }
+.gota-chip svg{ width:17px; height:17px; }
+.riego.seco .gota-chip{ background:#2B86E6; color:#fff; box-shadow:0 6px 14px -6px rgba(43,134,230,.7); }
+.widget > .fuente-dato{ margin:0; padding:0 14px 4px; font-size:11.5px; line-height:1.45; color:var(--color-suave); }
+
+/* riego: veredicto fino, litros grandes y pluviómetro de vidrio */
+.riego-cuerpo{ display:flex; flex-direction:column; gap:16px; flex:1; }
+.riego .veredicto{ margin:0; font-size:clamp(26px,2.4vw,32px); font-weight:300; letter-spacing:-.02em; line-height:1.05; color:var(--color-titulos); }
+.riego-medio{ display:flex; align-items:stretch; justify-content:space-between; gap:12px; }
+.riego .cantidad{ display:flex; flex-direction:column; justify-content:flex-end; gap:6px; }
+.riego .cantidad b{ font-size:clamp(64px,6vw,84px); font-weight:200; letter-spacing:-.05em; line-height:.85; color:var(--color-titulos); font-variant-numeric:tabular-nums; }
+.riego .cantidad b span{ font-size:.38em; font-weight:400; letter-spacing:0; margin-left:4px; color:var(--color-suave); }
+.riego .cantidad small{ font-size:13px; line-height:1.35; color:var(--color-suave); }
+.pluvio{ position:relative; display:flex; gap:10px; height:170px; padding-right:4px; }
+.pluvio-tubo{ position:relative; width:46px; height:100%; border-radius:12px 12px 23px 23px; overflow:hidden;
+    background:linear-gradient(90deg, rgba(42,26,14,.06), rgba(255,255,255,.9) 22%, rgba(255,255,255,.35) 45%, rgba(42,26,14,.04) 75%, rgba(42,26,14,.1));
+    box-shadow:inset 0 0 0 1px rgba(42,26,14,.14), inset 0 -6px 10px -6px rgba(42,26,14,.25), 0 10px 18px -12px rgba(42,26,14,.4); }
+/* rayitas de medida en el vidrio */
+.pluvio-tubo::before{ content:""; position:absolute; left:0; width:9px; top:10px; bottom:6px; z-index:2;
+    background:repeating-linear-gradient(180deg, rgba(42,26,14,.28) 0 1px, transparent 1px 12px); }
+.pluvio-agua{ position:absolute; left:0; right:0; bottom:0; min-height:6px;
+    background:linear-gradient(90deg, rgba(20,96,190,.9), rgba(92,176,246,.85) 35%, rgba(43,134,230,.9) 80%, rgba(16,80,160,.95));
+    transition:height 1s var(--ease); }
+.pluvio-agua svg{ position:absolute; left:0; bottom:100%; width:200%; height:7px; fill:rgba(92,176,246,.85); animation:ola 3.2s linear infinite; }
+@keyframes ola{ from{ transform:translateX(0); } to{ transform:translateX(-50%); } }
+.pluvio-meta{ position:absolute; left:-2px; right:-2px; height:0; border-top:1.5px dashed var(--color-titulos); z-index:3; }
+.pluvio-brillo{ position:absolute; top:8px; bottom:12px; left:24%; width:5px; border-radius:5px; background:linear-gradient(rgba(255,255,255,.95), rgba(255,255,255,.2)); z-index:3; }
+.pluvio-marcas{ position:relative; width:78px; }
+.pluvio-marcas span{ position:absolute; left:0; transform:translateY(50%); font-size:11px; line-height:1.15; color:var(--color-suave); white-space:nowrap; }
+.pluvio-marcas b{ display:block; font-size:13px; font-weight:600; color:var(--color-titulos); font-variant-numeric:tabular-nums; }
+.pluvio-marcas .lluvia b{ color:#2B86E6; }
+/* si las dos marcas quedan pegadas, la de la lluvia baja un poco */
+.pluvio-marcas .lluvia{ margin-bottom:-30px; }
+.riego .razones{ gap:7px; margin-top:auto; }
+.riego .razones li{ font-size:13.5px; line-height:1.4; gap:9px; }
+.riego .razones li::before{ width:6px; height:6px; margin-top:7px; }
+
+/* consejo: foto de huerta a sangre con la frase encima */
+.consejo{ padding:10px; gap:0; }
+.consejo-foto{ position:relative; flex:1; display:flex; flex-direction:column; gap:12px; padding:24px; border-radius:30px; overflow:hidden; isolation:isolate; min-height:300px;
+    box-shadow:inset 0 0 0 1px rgba(0,0,0,.08); }
+.consejo-foto img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:-2; transition:opacity .4s ease; }
+.consejo-foto::before{ content:""; position:absolute; inset:0; z-index:-1;
+    background:linear-gradient(180deg, rgba(20,28,12,.55) 0%, rgba(20,28,12,.15) 45%, rgba(20,28,12,.7) 100%); }
+.consejo-foto .consejo-rotulo{ color:rgba(255,255,255,.8); }
+.consejo-foto .texto{ color:#fff; text-shadow:0 2px 18px rgba(0,0,0,.35); }
+.consejo-foto .pasar{ margin-top:auto; }
+.consejo-foto .pasar button{ background:rgba(255,255,255,.16); border:1px solid rgba(255,255,255,.35); color:#fff;
+    backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); }
+.consejo-foto .pasar button:hover{ background:rgba(255,255,255,.28); }
+.consejo-foto .consejo-fuente{ color:rgba(255,255,255,.85); }
+@media (prefers-reduced-motion: reduce){ .pluvio-agua svg{ animation:none; } }
+
+/* =========================================================
+   Qué sembrar este mes, sintético (29/10): dial del año + lista, como widgets
+   ========================================================= */
+.este-mes .widget{ height:100%; }
+.widget-pantalla.oscura{ position:relative; overflow:hidden; isolation:isolate; color:var(--color-fondos);
+    background:radial-gradient(90% 60% at 50% 55%, #2E4220 0%, rgba(46,66,32,0) 70%), linear-gradient(180deg,#1A2512 0%,#121A0C 100%);
+    box-shadow:inset 0 0 0 1px rgba(0,0,0,.2), inset 0 10px 18px -8px rgba(0,0,0,.4); }
+.widget-pantalla.oscura::before{ content:""; position:absolute; inset:0; z-index:-1; opacity:.08; mix-blend-mode:overlay; pointer-events:none;
+    background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E"); }
+.oscura .widget-rotulo{ color:rgba(251,248,236,.6); }
+.globo-cal{ font-size:12px; font-weight:500; color:var(--color-fondos); text-decoration:none; padding:6px 12px; border-radius:99px;
+    background:rgba(251,248,236,.1); border:1px solid rgba(251,248,236,.2); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); }
+.globo-cal:hover{ background:var(--color-lima); color:var(--color-titulos); border-color:var(--color-lima); }
+.dial-tarjeta{ min-height:0; }
+.dial-tarjeta .mes{ margin:-4px 0 0; font-size:clamp(36px,3.4vw,46px); font-weight:300; letter-spacing:-.03em; line-height:1; text-transform:capitalize; color:var(--color-fondos); }
+.dial-tarjeta .dial{ padding:4px 0; }
+.dial-tarjeta .dial svg{ width:min(250px,100%); }
+.dial .pista{ stroke:rgba(251,248,236,.1); }
+.dial .marca-mes{ fill:rgba(251,248,236,.45); font-size:10px; }
+.dial .marca-mes.hoy{ fill:var(--color-lima); font-size:12px; }
+.dial .numero{ font-size:64px; font-weight:200; letter-spacing:-.04em; }
+.dial .rotulo{ font-size:12px; font-weight:500; letter-spacing:.02em; text-transform:none; fill:rgba(251,248,236,.65); }
+/* temporada en una línea: nombre, porcentaje y barra fina */
+.dial-temporada{ display:grid; grid-template-columns:auto 1fr; align-items:center; gap:14px; }
+.dial-temporada .valor{ display:flex; align-items:baseline; gap:8px; }
+.dial-temporada .valor small{ font-size:13px; color:rgba(251,248,236,.65); }
+.dial-temporada .valor b{ font-size:20px; font-weight:400; color:var(--color-fondos); font-variant-numeric:tabular-nums; }
+.dial-temporada .barra-segmentos{ gap:3px; }
+.dial-temporada .barra-segmentos i{ height:4px; }
+.dial-temporada .barra-segmentos .s1 i{ background:var(--color-lima); }
+.dial-temporada .barra-segmentos .s2 i{ background:var(--color-fondos); }
+.dial-temporada .barra-segmentos .s3 i{ background:rgba(251,248,236,.15); }
+
+/* lista compacta */
+.lista-tareas .widget-pantalla{ gap:6px; }
+.lista-tareas .widget-rotulo{ display:flex; align-items:center; gap:8px; }
+.lista-tareas .widget-rotulo .contador{ height:22px; min-width:24px; font-size:12px; letter-spacing:0; }
+.lista-tareas .link-flecha{ font-size:13px; }
+.lista-tareas #cultivos-mes{ flex:1; display:flex; flex-direction:column; justify-content:center; }
+.lista-tareas .tarea{ padding:12px 0; gap:14px; }
+.lista-tareas .tarea .avatar{ width:46px; height:46px; border-radius:14px; padding:4px; background:#F2EFD9; box-shadow:inset 0 0 0 1px rgba(42,26,14,.05); }
+.tarea-nombre{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+.lista-tareas .tarea strong{ font-size:19px; font-weight:400; letter-spacing:-.01em; }
+.lista-tareas .tarea .forma{ font-size:11.5px; font-weight:500; padding:2px 9px; border-radius:99px; background:rgba(85,115,31,.1); color:var(--color-marca); }
+.lista-tareas .form-check-label{ font-size:13px; color:var(--color-suave); }
+.lista-tareas .widget-cabeza{ gap:12px; }
+.lista-tareas .widget-rotulo{ white-space:nowrap; }
+@media (max-width:575.98px){
+    .lista-tareas .tarea{ grid-template-columns:auto 1fr auto; gap:12px; }
+    .lista-tareas .tarea .form-switch{ grid-column:auto; }
+    .lista-tareas .tarea strong{ font-size:17px; }
+    .lista-tareas .form-check-label{ display:none; }
+}
+
+/* Mis plantas en tarjetas chicas (29/10): seis por fila en escritorio, dos en celular */
+#grilla-plantas{ --bs-gutter-x:.75rem; --bs-gutter-y:.75rem; }
+.mis-plantas .planta{ padding:6px; border-radius:24px; }
+.mis-plantas .planta .foto{ aspect-ratio:1 / 1; height:auto; min-height:0; border-radius:19px; }
+.mis-plantas .planta .foto img{ width:62%; height:70%; }
+.mis-plantas .planta .foto .chip{ top:7px; left:7px; font-size:10.5px; padding:2px 8px; }
+.mis-plantas .planta .anillo-dia{ top:6px; right:6px; width:32px; height:32px; }
+.mis-plantas .planta .anillo-dia text{ font-size:13px; }
+.mis-plantas .planta .cuerpo{ padding:10px 6px 4px; gap:6px; }
+.mis-plantas .planta h3{ font-size:15px; font-weight:600; }
+.mis-plantas .planta h3 small{ font-size:11px; }
+.mis-plantas .planta .progreso{ height:4px; }
+.mis-plantas .planta .meta{ font-size:11px; }
+.mis-plantas .planta .meta span:first-child{ display:none; }
+.mis-plantas .planta .ultimo{ font-size:11.5px; line-height:1.35; color:var(--color-suave);
+    display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+.mis-plantas .planta.vacia{ padding:14px 10px; gap:6px; border-radius:24px; }
+.mis-plantas .planta.vacia .boton-redondo{ width:40px; height:40px; font-size:18px; }
+.mis-plantas .planta.vacia strong{ font-size:14px; }
+.mis-plantas .planta.vacia span{ font-size:11.5px; }
+
+/* ficha del destacado a la manera de Grokipedia (29/10) */
+.destacado .ficha-libro{ max-width:520px; width:100%; }
+.destacado .ficha-libro .dest-rotulo{ margin:0 0 8px; font-size:15px; font-weight:400; letter-spacing:0; text-transform:none; color:rgba(251,248,236,.65); }
+.destacado .ficha-libro h3{ font-size:clamp(36px,4.2vw,56px); margin:0 0 22px; }
+.dest-bajada{ margin:0 0 18px; font-size:16px; line-height:1.6; color:rgba(251,248,236,.72); max-width:42ch; }
+.dest-acciones{ display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:10px 22px; margin-bottom:26px; }
+@media (min-width:768px){ .dest-acciones{ justify-content:flex-start; } }
+.dest-leer{ font-size:16px; color:var(--color-fondos); text-decoration:none; display:inline-flex; align-items:center; gap:8px; }
+.dest-leer span{ font-size:20px; line-height:1; transition:transform .2s var(--ease); }
+.dest-leer:hover{ color:var(--color-lima); }
+.dest-leer:hover span{ transform:translateX(3px); }
+.dest-lista{ list-style:none; margin:0; padding:0; border-top:1px solid rgba(251,248,236,.14); text-align:left; }
+.dest-lista li{ border-bottom:1px solid rgba(251,248,236,.14); }
+.dest-lista button{ position:relative; width:100%; display:grid; grid-template-columns:44px 1fr auto; align-items:center; gap:8px; padding:14px 4px; border:0; background:none;
+    font:inherit; text-align:left; color:rgba(251,248,236,.5); cursor:pointer; transition:color .2s ease; }
+.dest-lista .n{ font-size:14px; font-variant-numeric:tabular-nums; }
+.dest-lista .t{ font-size:17px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.dest-lista .flecha{ font-size:18px; opacity:0; transition:opacity .2s ease, transform .2s var(--ease); }
+.dest-lista button:hover{ color:rgba(251,248,236,.85); }
+.dest-lista button[aria-current="true"]{ color:var(--color-fondos); }
+.dest-lista button[aria-current="true"] .flecha{ opacity:1; }
+.dest-lista button:focus-visible{ outline:2px solid var(--color-lima); outline-offset:-2px; border-radius:6px; }
+/* línea que se completa mientras corre la vuelta, debajo de la fila activa */
+.dest-lista button[aria-current="true"]::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; height:2px; background:var(--color-fondos); transform-origin:left; }
+.ficha-libro.corriendo .dest-lista button[aria-current="true"]::after{ animation:dest-avance 7s linear both; }
+
+/* destacado más compacto (29/10): libro, título y lista más chicos */
+.destacado{ padding:8px 0 22px; margin-bottom:16px; gap:22px; }
+@media (min-width:768px){ .destacado{ padding:14px clamp(8px,2vw,24px) 24px; gap:clamp(28px,4vw,52px); } }
+.dest-escena{ --alto-libro:clamp(190px,20vw,240px); }
+.dest-libro{ --d:18px; }
+.dest-sombra{ bottom:-16px; height:18px; }
+.destacado .ficha-libro{ max-width:460px; }
+.destacado .ficha-libro .dest-rotulo{ font-size:13px; margin-bottom:4px; }
+.destacado .ficha-libro h3{ font-size:clamp(28px,2.8vw,36px); margin-bottom:10px; }
+.dest-bajada{ font-size:14px; line-height:1.5; margin-bottom:12px; }
+.dest-acciones{ margin-bottom:14px; gap:8px 18px; }
+.dest-leer{ font-size:14px; }
+.dest-lista button{ padding:8px 2px; grid-template-columns:34px 1fr auto; }
+.dest-lista .n{ font-size:12px; }
+.dest-lista .t{ font-size:14px; }
+.dest-lista .flecha{ font-size:15px; }
+
+/* encabezado del INTA al costado del destacado, como el hero de Grokipedia (29/10) */
+.inta-hero{ display:grid; gap:28px; align-items:center; padding:14px 0 26px; margin-bottom:18px; border-bottom:1px solid rgba(251,248,236,.12); }
+@media (min-width:1200px){ .inta-hero{ grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr); gap:48px; padding:20px clamp(8px,2vw,24px) 28px; } }
+.inta-hero .destacado{ padding:0; margin:0; border:0; }
+.inta-cabeza .overline{ color:var(--color-lima); }
+.inta-cabeza h2{ color:var(--color-fondos); font-size:clamp(32px,3.2vw,46px); line-height:1.02; margin-bottom:14px; text-wrap:balance; }
+.inta-cabeza .bajada{ margin:0 0 20px; font-size:15px; line-height:1.55; color:rgba(251,248,236,.72); max-width:46ch; }
+.inta-dato{ display:flex; align-items:center; gap:14px; margin:0; padding-top:16px; border-top:1px solid rgba(251,248,236,.14); max-width:46ch; }
+.inta-dato b{ font-size:44px; font-weight:300; letter-spacing:-.03em; line-height:1; color:var(--color-fondos); font-variant-numeric:tabular-nums; }
+.inta-dato span{ font-size:13px; line-height:1.4; color:rgba(251,248,236,.65); }

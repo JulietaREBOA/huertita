@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css?v=2210b">
+    <link rel="stylesheet" href="css/style.css?v=2910t">
   </head>
   <body data-base="">
     <header class="nav-huertita container-xxl px-3">
@@ -39,19 +39,6 @@
           <div class="foto-pie">
             <h1 class="foto-titulo">Una huerta en casa, <em>de la semilla a la cosecha.</em></h1>
             <a class="btn-cta" href="html/preparar-y-sembrar.html">Empezar <span class="circulo" aria-hidden="true">↗</span></a>
-          </div>
-        </div>
-      </section>
-
-      <!-- Intro y datos -->
-      <section class="intro-n" aria-label="La Huertita en números">
-        <div class="container-xxl px-4 px-lg-5">
-          <p class="texto aparece">Tener una huerta no es cuestión de tener campo ni buena mano. Es <em>acompañar a la naturaleza:</em> cultivar sin agroquímicos, cuidar el suelo y el agua, mezclar muchas especies y guardar la propia semilla.</p>
-          <div class="datos-n">
-            <div class="dato-n"><b data-contar="25">25</b><span>cultivos con calendario, ficha y diario</span></div>
-            <div class="dato-n"><b data-contar="53">53</b><span>publicaciones del INTA en el estante</span></div>
-            <div class="dato-n"><b data-contar="12">12</b><span>meses de siembra en la región pampeana</span></div>
-            <div class="dato-n"><b data-contar="5">5</b><span>días de pronóstico para planificar el riego</span></div>
           </div>
         </div>
       </section>
@@ -113,43 +100,41 @@
           </div>
           <div class="row g-3">
             <div class="col-lg-5">
-              <article class="panel-verde clima" id="clima" aria-live="polite">
-                <div class="cabeza">
-                  <div>
-                    <h3 class="fs-5 mb-1">Clima</h3>
-                    <p class="mb-0 small">Pronóstico de cinco días</p>
-                  </div>
+              <article class="clima-widget" id="clima" aria-live="polite">
+                <h3 class="visually-hidden">Clima</h3>
+                <div class="clima-cuerpo"><div class="clima-cielo" data-cielo="dia"><div class="clima-arriba"><div><p class="estado">Clima</p><p class="momento">Cargando el clima…</p></div></div></div></div>
+                <div class="clima-pie">
                   <button class="ciudad" type="button" data-bs-toggle="modal" data-bs-target="#modal-ciudad" aria-label="Cambiar la ciudad">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
                     <span>Buenos Aires</span>
                   </button>
+                  <p class="fuente-clima">Datos de <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a></p>
                 </div>
-                <div class="clima-cuerpo d-flex flex-column gap-3 flex-grow-1"><p class="estado">Cargando el clima…</p></div>
-                <p class="fuente-clima">Datos de <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a></p>
               </article>
             </div>
             <div class="col-md-7 col-lg-4">
-              <article class="panel riego" id="riego" aria-live="polite">
-                <div class="cabeza">
-                  <h3 class="fs-5 mb-0">Riego de hoy</h3>
-                  <span class="icono-redondo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z"/></svg></span>
+              <article class="widget riego" id="riego" aria-live="polite">
+                <div class="widget-pantalla">
+                  <div class="widget-cabeza">
+                    <h3 class="widget-rotulo">Riego de hoy</h3>
+                    <span class="gota-chip" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z"/></svg></span>
+                  </div>
+                  <div class="riego-cuerpo"><p class="veredicto">Calculando…</p></div>
                 </div>
-                <div class="riego-cuerpo d-flex flex-column gap-3 flex-grow-1"><p class="veredicto">Calculando…</p></div>
-                <p class="fuente-dato">Pautas de riego del INTA en <a href="https://repositorio.inta.gob.ar/handle/20.500.12123/4528" target="_blank" rel="noopener"><em>Riego por goteo</em></a>. Cálculo con la evapotranspiración FAO de Open-Meteo.</p>
+                <p class="fuente-dato">Pautas del INTA en <a href="https://repositorio.inta.gob.ar/handle/20.500.12123/4528" target="_blank" rel="noopener"><em>Riego por goteo</em></a> · evapotranspiración FAO de Open-Meteo.</p>
               </article>
             </div>
             <div class="col-md-5 col-lg-3">
-              <article class="panel consejo" id="consejo" aria-live="polite">
-                <div class="cabeza">
-                  <h3 class="fs-5 mb-0">Consejo del día</h3>
-                  <span class="icono-redondo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6M10 22h4"/></svg></span>
-                </div>
-                <p class="texto"></p>
-                <p class="fuente-dato">Consejos basados en <a href="https://repositorio.inta.gob.ar/handle/20.500.12123/15389" target="_blank" rel="noopener"><em>La Huerta Orgánica</em></a> y <a href="https://repositorio.inta.gob.ar/handle/20.500.12123/15072" target="_blank" rel="noopener"><em>Mi casa, mi huerta</em></a>, INTA.</p>
-                <div class="pasar align-items-center">
-                  <button type="button" data-paso="-1" aria-label="Consejo anterior">←</button>
-                  <button type="button" data-paso="1" aria-label="Consejo siguiente">→</button>
-                  <small class="cual ms-2 text-body-secondary"></small>
+              <article class="widget consejo" id="consejo" aria-live="polite">
+                <div class="consejo-foto">
+                  <img src="imgs/fotos/plantines.webp" alt="" loading="lazy" decoding="async">
+                  <p class="consejo-rotulo">Consejo del día</p>
+                  <p class="texto"></p>
+                  <div class="pasar">
+                    <button type="button" data-paso="-1" aria-label="Consejo anterior">←</button>
+                    <button type="button" data-paso="1" aria-label="Consejo siguiente">→</button>
+                    <a class="consejo-fuente" href="https://repositorio.inta.gob.ar/handle/20.500.12123/15389" target="_blank" rel="noopener">Fuente: INTA</a>
+                  </div>
                 </div>
               </article>
             </div>
@@ -161,36 +146,32 @@
       <section class="este-mes" aria-labelledby="titulo-mes">
         <div class="container-xxl px-4 px-lg-5">
           <div class="row g-3">
-            <div class="col-lg-4">
-              <article class="panel-verde dial-tarjeta">
-                <div class="cabeza">
-                  <div>
-                    <p class="overline">Qué sembrar este mes</p>
-                    <h2 class="mes" id="titulo-mes">Septiembre</h2>
+            <div class="col-lg-5">
+              <article class="widget dial-tarjeta">
+                <div class="widget-pantalla oscura">
+                  <div class="widget-cabeza">
+                    <p class="widget-rotulo">Qué sembrar este mes</p>
+                    <a class="globo-cal" href="html/calendario.html" aria-label="Ver el calendario completo">Calendario ↗</a>
                   </div>
-                  <span class="pildora-vidrio">Hoy</span>
-                </div>
-                <div class="dial" id="dial-mes"></div>
-                <div class="pie-dial">
-                  <p class="mb-0 small" id="temporada-mes">Primavera y verano. Se actualiza solo según la fecha.</p>
-                  <a class="boton-redondo lima con-globo" href="html/calendario.html" aria-label="Ver el calendario completo"><span class="globo">Calendario</span>→</a>
+                  <h2 class="mes" id="titulo-mes">Septiembre</h2>
+                  <div class="dial" id="dial-mes"></div>
+                  <div class="dial-temporada" id="tarjeta-progreso"></div>
+                  <p class="visually-hidden" id="temporada-mes"></p>
                 </div>
               </article>
             </div>
-            <div class="col-lg-8 d-flex flex-column gap-3">
-              <div class="row g-3">
-                <div class="col-md-6"><div class="panel tarjeta-fecha" id="tarjeta-fecha"></div></div>
-                <div class="col-md-6"><div class="panel tarjeta-progreso" id="tarjeta-progreso"></div></div>
-              </div>
-              <article class="panel lista-tareas flex-grow-1">
-                <div class="cabeza">
-                  <h3 class="fs-5 mb-0 d-flex align-items-center gap-2">Para sembrar este mes <span class="contador" id="cuenta-mes">4</span></h3>
-                  <a class="link-flecha" href="html/calendario.html">Ver el calendario completo →</a>
+            <div class="col-lg-7">
+              <article class="widget lista-tareas">
+                <div class="widget-pantalla">
+                  <div class="widget-cabeza">
+                    <h3 class="widget-rotulo">Para sembrar ahora <span class="contador" id="cuenta-mes">4</span></h3>
+                    <a class="link-flecha" href="html/calendario.html" aria-label="Ver el calendario completo">Ver todo →</a>
+                  </div>
+                  <div id="cultivos-mes">
+                    <!-- filas generadas por js/este-mes.js -->
+                  </div>
+                  <p class="fuente-dato mb-0">Calendario de siembra de ProHuerta, región pampeana.</p>
                 </div>
-                <div id="cultivos-mes">
-                  <!-- filas generadas por js/este-mes.js -->
-                </div>
-                <p class="fuente-dato mb-0">Meses según el calendario de siembra de ProHuerta para la región pampeana.</p>
               </article>
             </div>
           </div>
@@ -213,40 +194,32 @@
         </div>
       </section>
 
-      <!-- Antes y después -->
-      <section class="seccion" aria-labelledby="titulo-antes">
-        <div class="container-xxl px-4 px-lg-5">
-          <div class="text-center mb-5">
-            <p class="overline">Lo que cambia</p>
-            <h2 id="titulo-antes" class="mt-3 mx-auto" style="max-width:18ch">De un rincón olvidado <em>a una huerta que da de comer.</em></h2>
-            <p class="bajada mt-3">Un patio con pasto alto o un balcón vacío alcanzan. Con un plan simple y la estación justa, en una temporada ya hay cosecha.</p>
-          </div>
-          <div class="antes-despues aparece">
-            <img src="imgs/fotos/patio-antes.webp" alt="Antes: un patio con pasto crecido y sin cultivar">
-            <img class="despues" src="imgs/paisajes/canteros.webp" alt="Después: un cantero elevado con lechugas, verdeo y aromáticas">
-            <span class="etiqueta izq">Antes</span><span class="etiqueta der">Después</span>
-            <span class="linea"></span>
-            <input type="range" min="0" max="100" value="50" aria-label="Deslizá para comparar antes y después">
-            <span class="tirador" aria-hidden="true">‹ ›</span>
-          </div>
-          <p class="credito text-center mt-3">Imágenes de referencia, no son el mismo lugar.</p>
-        </div>
-      </section>
-
       <!-- La base: INTA ProHuerta -->
       <section class="seccion base-inta banda-bosque" aria-labelledby="titulo-inta">
         <div class="container-xxl px-4 px-lg-5">
-          <div class="row g-4 align-items-end mb-4">
-            <div class="col-lg-8">
+          <div class="estante-marco">
+            <div class="inta-hero">
+            <div class="inta-cabeza">
               <p class="overline">Fuente oficial</p>
               <h2 id="titulo-inta" class="mt-3">Todo lo que dice esta guía <em>sale del INTA.</em></h2>
-              <p class="bajada mt-3" style="color:rgba(251,248,236,.75)">Los datos de siembra, cuidado y riego vienen de los manuales del programa ProHuerta, que acompaña huertas familiares, escolares y comunitarias en todo el país.</p>
+              <p class="bajada">Los datos de siembra, cuidado y riego vienen de los manuales del programa ProHuerta, que acompaña huertas familiares, escolares y comunitarias en todo el país.</p>
+              <p class="inta-dato"><b data-contar="53">53</b><span>publicaciones del INTA para la huerta, con su enlace al repositorio institucional.</span></p>
             </div>
-            <div class="col-lg-3 offset-lg-1">
-              <div class="dato-n"><b data-contar="53">53</b><span>publicaciones del INTA para la huerta, con su enlace al repositorio institucional.</span></div>
+            <div class="destacado">
+              <a class="dest-escena" id="dest-escena" href="https://repositorio.inta.gob.ar/" target="_blank" rel="noopener" aria-label="Abrir en el repositorio del INTA">
+                <span class="dest-flota"><span class="dest-salto" id="dest-salto">
+                  <span class="dest-libro" id="dest-libro">
+                    <span class="dest-tapa" id="dest-tapa"></span>
+                    <span class="dest-luz" aria-hidden="true"></span>
+                    <span class="dest-bisagra" aria-hidden="true"></span>
+                    <span class="dest-lomo" aria-hidden="true"></span>
+                  </span>
+                </span></span>
+                <span class="dest-sombra" aria-hidden="true"></span>
+              </a>
+              <div class="ficha-libro" id="ficha-libro"></div>
             </div>
-          </div>
-          <div class="estante-marco">
+            </div>
             <div class="estante-barra">
               <div class="filtro filtro-oscuro" id="filtro-estante" role="group" aria-label="Filtrar por tema">
                 <button type="button" data-grupo="todos" aria-pressed="true">Todos</button>
@@ -265,32 +238,14 @@
                 <button class="mover" type="button" data-mover="1" aria-label="Ver más libros">→</button>
               </div>
             </div>
-            <div class="estante" id="estante" aria-label="Estante de publicaciones del INTA"></div>
-            <div class="tabla-estante" aria-hidden="true"></div>
-            <div class="ficha-libro" id="ficha-libro" aria-live="polite"></div>
+            <p class="visually-hidden" id="estante-ayuda">Tocá un lomo para presentar su tapa y volvé a tocarlo para abrirlo. Con las flechas recorrés el estante y con Escape lo devolvés.</p>
+            <div class="estante-vista" id="estante-vista">
+              <div class="estante" id="estante" tabindex="0" aria-label="Estante de publicaciones del INTA" aria-describedby="estante-ayuda"></div>
+              <div class="tabla-estante" aria-hidden="true"></div>
+            </div>
+            <div class="estante-etiqueta" id="estante-etiqueta" aria-live="polite"></div>
           </div>
           <p class="credito">Publicaciones del <a href="https://repositorio.inta.gob.ar/" target="_blank" rel="noopener">repositorio del INTA</a>, con licencia CC BY-NC-SA. Tapas y datos tomados de cada ficha del repositorio. Lo que marcás como leído se guarda en este navegador.</p>
-        </div>
-      </section>
-
-      <!-- Cómo empezar -->
-      <section class="seccion" aria-labelledby="titulo-empezar">
-        <div class="container-xxl px-4 px-lg-5">
-          <div class="row g-5 align-items-stretch">
-            <div class="col-lg-5">
-              <p class="overline">Desde cero</p>
-              <h2 class="mt-3 mb-4" id="titulo-empezar">Cuatro pasos <em>para arrancar.</em></h2>
-              <img class="foto-redonda aparece" src="imgs/fotos/herramientas.webp" alt="Herramientas de mano, guantes y plantines sobre la tierra" loading="lazy">
-            </div>
-            <div class="col-lg-7 d-flex flex-column justify-content-end">
-              <ol class="filas-n">
-                <li><span class="n">01</span><div><strong>Definí para qué</strong><p>Consumo diario, algo puntual o una actividad con chicos.</p></div></li>
-                <li><span class="n">02</span><div><strong>Arrancá chico</strong><p>Un cantero o unas macetas alcanzan para empezar.</p></div></li>
-                <li><span class="n">03</span><div><strong>Recorré la guía en orden</strong><p>Preparar, sembrar, calendario, cuidar y cosechar.</p></div></li>
-                <li><span class="n">04</span><div><strong>Volvé al calendario</strong><p>Cada vez que cambia la estación.</p></div></li>
-              </ol>
-            </div>
-          </div>
         </div>
       </section>
 
@@ -435,10 +390,10 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
     <script src="js/cultivos.js"></script>
-    <script src="js/asistente.js"></script>
-    <script src="js/este-mes.js"></script>
+    <script src="js/asistente.js?v=2910t"></script>
+    <script src="js/este-mes.js?v=2910t"></script>
     <script src="js/estante-datos.js"></script>
-    <script src="js/estante.js"></script>
+    <script src="js/estante.js?v=2910t"></script>
     <script src="js/front.js?v=2210b"></script>
   </body>
 </html>
