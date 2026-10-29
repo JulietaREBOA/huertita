@@ -88,3 +88,53 @@
     pintar();
   });
 })();
+
+/* =========================================================
+   Páginas internas más breves: cada tema muestra su encabezado
+   (y el primer bloque si es corto); el resto queda plegado detrás de «Ver más».
+   Las herramientas llevan data-abierta y no se pliegan.
+   ========================================================= */
+(() => {
+  const temas = document.querySelectorAll("main section.seccion:not([data-abierta])");
+  temas.forEach((sec, n) => {
+    const cont = sec.querySelector(":scope > .container-xxl");
+    const encabezado = cont?.querySelector(".encabezado");
+    if (!encabezado) return;
+    // Si el encabezado está dentro de una columna, sube arriba de todo para quedar a la vista.
+    if (encabezado.parentElement !== cont) cont.prepend(encabezado);
+    // El primer bloque queda visible solo si es corto (por ejemplo, tres tarjetitas).
+    const despues = [...cont.children].slice(1);
+    const primero = despues[0];
+    const resto = primero && primero.offsetHeight <= 260 ? despues.slice(1) : despues;
+    if (!resto.length) return;
+    const caja = document.createElement("div");
+    caja.className = "plegado";
+    caja.id = `plegado-${n}`;
+    caja.hidden = true;
+    resto.forEach((el) => caja.append(el));
+    const tema = encabezado.querySelector("h2")?.textContent.replace(/[.¿?]/g, "").trim().toLowerCase() || "este tema";
+    const boton = document.createElement("button");
+    boton.type = "button";
+    boton.className = "ver-mas";
+    boton.setAttribute("aria-expanded", "false");
+    boton.setAttribute("aria-controls", caja.id);
+    const rotulo = (abierto) => { boton.innerHTML = abierto ? `Ver menos <span aria-hidden="true">↑</span>` : `Ver más sobre ${tema} <span aria-hidden="true">↓</span>`; };
+    rotulo(false);
+    boton.addEventListener("click", () => {
+      const abrir = caja.hidden;
+      caja.hidden = !abrir;
+      boton.setAttribute("aria-expanded", String(abrir));
+      rotulo(abrir);
+      if (!abrir) sec.scrollIntoView({ block: "start" });
+    });
+    cont.append(caja, boton);
+  });
+  // Si se llega con un enlace a algo plegado, se abre su tema.
+  const abrirDestino = () => {
+    const el = location.hash ? document.getElementById(decodeURIComponent(location.hash.slice(1))) : null;
+    const caja = el?.closest(".plegado");
+    if (caja?.hidden) caja.parentElement.querySelector(".ver-mas")?.click();
+  };
+  abrirDestino();
+  addEventListener("hashchange", abrirDestino);
+})();

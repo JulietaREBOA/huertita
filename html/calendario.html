@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../css/style.css?v=2910t">
+    <link rel="stylesheet" href="../css/style.css?v=2910w">
   </head>
   <body data-base="../">
     <header class="nav-huertita container-xxl px-3">
@@ -43,19 +43,10 @@
       <section class="hero-interna">
         <div class="container-xxl px-4 px-lg-5">
           <div class="row g-5 align-items-center">
-            <div class="col-lg-7">
+            <div class="col-lg-8">
               <p class="overline">Calendario y cultivos</p>
               <h1>Qué sembrar, <em>cuándo y cómo.</em></h1>
               <p class="bajada mb-0">El mapa de toda la huerta. Para cada especie, la época, la forma de siembra y su ficha completa. Tenelo a mano toda la temporada.</p>
-            </div>
-            <div class="col-lg-5">
-              <aside class="card tarjeta tarjeta-mes" aria-labelledby="temporada-mes">
-                <p class="overline d-flex align-items-center gap-2"><span id="rotulo-mes">Este mes</span></p>
-                <h2 id="temporada-mes">Primavera y verano</h2>
-                <p>Se actualiza solo según la fecha.</p>
-                <div class="chips mb-3" id="chips-mes"></div>
-                <a class="link-flecha" href="#calendario">Ver todo lo del mes →</a>
-              </aside>
             </div>
           </div>
         </div>
@@ -82,11 +73,6 @@
             <input class="buscador" id="buscador" type="search" placeholder="Buscar especie…" autocomplete="off">
           </div>
 
-          <ol class="pasos en-fila">
-            <li><span class="n">1</span><div><strong>Ubicá la especie</strong><span>Buscala en su fila o con el buscador.</span></div></li>
-            <li><span class="n">2</span><div><strong>Mirá los meses</strong><span>Oliva es siembra directa; salvia, almácigo.</span></div></li>
-            <li><span class="n">3</span><div><strong>Abrí la ficha</strong><span>Cada nombre enlaza a su ficha de cultivo.</span></div></li>
-          </ol>
         </div>
       </section>
 
@@ -106,48 +92,8 @@
         </div>
       </section>
 
-      <!-- Las dos temporadas -->
-      <section class="seccion">
-        <div class="container-xxl px-4 px-lg-5">
-          <div class="encabezado">
-            <p class="overline">Temporadas</p>
-            <h2>Dos grandes listas <em>de siembra.</em></h2>
-          </div>
-          <div class="row g-4">
-            <div class="col-lg-6">
-              <article class="card tarjeta">
-                <div class="row g-4">
-                  <div class="col-sm-5"><figure class="lamina-grabado foto-recorte" style="--tono:#D6DE9E"><img class="img-fluid recorte" src="../imgs/cultivos/repollo.webp" alt="Repollo crespo de invierno" loading="lazy"></figure></div>
-                  <div class="col-sm-7">
-                    <p class="overline">Febrero a julio, según la zona</p>
-                    <h3>Otoño e invierno</h3>
-                    <p class="fw-semibold" style="color:var(--color-titulos)">Hojas, raíces y coles que toleran el frío.</p>
-                    <p>Ajo, haba, arveja, espinaca, escarola, repollo, brócoli, coliflor, cebolla.</p>
-                    <p class="fst-italic mb-0">Lo que sembrás en marzo y abril es lo que comés cuando la verdura está más cara.</p>
-                  </div>
-                </div>
-              </article>
-            </div>
-            <div class="col-lg-6">
-              <article class="card tarjeta">
-                <div class="row g-4">
-                  <div class="col-sm-5"><figure class="lamina-grabado foto-recorte" style="--tono:#E8C3BC"><img class="img-fluid recorte" src="../imgs/cultivos/zapallo.webp" alt="Zapallo de verano" loading="lazy"></figure></div>
-                  <div class="col-sm-7">
-                    <p class="overline">Agosto a enero, sin riesgo de heladas</p>
-                    <h3>Primavera y verano</h3>
-                    <p class="fw-semibold" style="color:var(--color-titulos)">Plantas de fruto y de crecimiento rápido con calor.</p>
-                    <p>Tomate, pimiento, berenjena, albahaca, zapallo, zapallito, maíz, melón, pepino, chaucha.</p>
-                    <p class="fst-italic mb-0">Una helada tardía te borra el almácigo de tomate en una noche, así que esperá.</p>
-                  </div>
-                </div>
-              </article>
-            </div>
-          </div>
-        </div>
-      </section>
-
       <!-- Fichas de cultivo -->
-      <section class="seccion alterna">
+      <section class="seccion alterna" data-abierta>
         <div class="container-xxl px-4 px-lg-5">
           <div class="encabezado">
             <p class="overline">Catálogo</p>
@@ -167,7 +113,7 @@
       </section>
 
       <!-- Ficha tipo -->
-      <section class="seccion">
+      <section class="seccion" data-abierta>
         <div class="container-xxl px-4 px-lg-5">
           <div class="encabezado">
             <p class="overline">Plantilla</p>
@@ -288,6 +234,6 @@
     <script src="../js/cultivos.js"></script>
     <script src="../js/este-mes.js"></script>
     <script src="../js/calendario.js"></script>
-    <script src="../js/front.js?v=2210b"></script>
+    <script src="../js/front.js?v=2910w"></script>
   </body>
 </html>

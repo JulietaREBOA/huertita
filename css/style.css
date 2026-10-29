@@ -2074,3 +2074,23 @@ h1 em, h2 em, .remate{
 .inta-dato{ display:flex; align-items:center; gap:14px; margin:0; padding-top:16px; border-top:1px solid rgba(251,248,236,.14); max-width:46ch; }
 .inta-dato b{ font-size:44px; font-weight:300; letter-spacing:-.03em; line-height:1; color:var(--color-fondos); font-variant-numeric:tabular-nums; }
 .inta-dato span{ font-size:13px; line-height:1.4; color:rgba(251,248,236,.65); }
+
+/* =========================================================
+   Páginas internas breves (29/10): temas plegados con «Ver más»,
+   apertura sin foto repetida y capítulos más bajos
+   ========================================================= */
+body[data-base="../"] main .seccion{ padding:44px 0; }
+body[data-base="../"] main .seccion .encabezado{ margin-bottom:22px; }
+.ver-mas{ display:inline-flex; align-items:center; gap:8px; margin-top:22px; padding:10px 18px; border-radius:99px; font:inherit; font-size:14px; font-weight:500;
+    color:var(--color-titulos); background:transparent; border:1px solid var(--color-borde); cursor:pointer; transition:background .2s ease, border-color .2s ease; }
+.ver-mas:hover{ background:var(--color-lima); border-color:var(--color-lima); }
+.ver-mas:focus-visible{ outline:2px solid var(--color-marca); outline-offset:3px; }
+.plegado{ margin-top:8px; }
+.plegado:not([hidden]){ animation:etq-entrar .35s var(--ease) both; }
+/* la portada ya tiene foto: la apertura queda solo con el texto */
+body[data-base="../"] .hero-interna .col-lg-6:last-child, body[data-base="../"] .hero-interna .col-lg-5:last-child{ display:none; }
+body[data-base="../"] .hero-interna{ padding:8px 0 0; }
+body[data-base="../"] .hero-interna h1{ font-size:clamp(36px,4.6vw,56px); margin:12px 0 14px; }
+.banda-capitulo{ padding:8px 0; }
+.banda-capitulo > .container-xxl{ padding-top:22px !important; padding-bottom:22px !important; }
+.banda-capitulo h2{ font-size:clamp(28px,3vw,40px) !important; margin:6px 0 !important; }
