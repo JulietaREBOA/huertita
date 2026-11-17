@@ -2094,3 +2094,22 @@ body[data-base="../"] .hero-interna h1{ font-size:clamp(36px,4.6vw,56px); margin
 .banda-capitulo{ padding:8px 0; }
 .banda-capitulo > .container-xxl{ padding-top:22px !important; padding-bottom:22px !important; }
 .banda-capitulo h2{ font-size:clamp(28px,3vw,40px) !important; margin:6px 0 !important; }
+
+/* ===== Contacto (final: Netlify Forms) ===== */
+.contacto{ background:var(--color-app); }
+.contacto-form{ background:var(--color-fondos); border:1px solid var(--color-borde); border-radius:var(--radio); padding:clamp(22px,3vw,36px); box-shadow:var(--sombra); }
+.contacto-form .form-label{ font-weight:600; font-size:14px; color:var(--color-titulos); margin-bottom:6px; }
+.contacto-form .form-control, .contacto-form .form-select{ background-color:var(--color-blanco); border:1px solid var(--color-borde); border-radius:var(--radio-s); padding:12px 16px; color:var(--color-titulos); font-size:16px; }
+.contacto-form .form-control:focus, .contacto-form .form-select:focus{ border-color:var(--color-marca); box-shadow:0 0 0 3px rgba(85,115,31,.18); }
+.contacto-form .form-check-input{ border-color:var(--color-lineas); }
+.contacto-form .form-check-input:checked{ background-color:var(--color-marca); border-color:var(--color-marca); }
+.contacto-form .form-check-input:focus{ box-shadow:0 0 0 3px rgba(85,115,31,.18); border-color:var(--color-marca); }
+.contacto-form.was-validated .form-control:invalid, .contacto-form.was-validated .form-select:invalid{ border-color:var(--color-acento); }
+.contacto-form .invalid-feedback{ color:var(--color-acento); font-size:13px; }
+.contacto-nota{ font-size:14px; color:var(--color-suave); }
+.contacto-datos{ list-style:none; padding:0; margin:0; display:grid; gap:10px; }
+.contacto-datos li{ background:var(--color-fondos); border:1px solid var(--color-borde); border-radius:var(--radio-m); padding:14px 18px; }
+.contacto-datos strong{ display:block; color:var(--color-titulos); font-size:15px; }
+.contacto-datos span{ color:var(--color-suave); font-size:14px; }
+.gracias{ min-height:60vh; display:flex; align-items:center; text-align:center; }
+.gracias h1{ font-size:clamp(36px,5vw,64px); font-weight:500; letter-spacing:-.035em; line-height:1.05; color:var(--color-titulos); }
