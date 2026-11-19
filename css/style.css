@@ -635,7 +635,7 @@ button.planta:hover{ transform:translateY(-3px); box-shadow:var(--sombra-alta); 
 .tarjeta-mes .chip{ background:rgba(251,248,236,.16); border-color:rgba(251,248,236,.28); color:var(--color-fondos); }
 .tarjeta-mes .link-flecha{ color:var(--color-lima); }
 
-#calendario .tabla-huerta{ padding:8px 20px 12px; }
+#calendario .tabla-huerta{ padding:8px 20px 12px; overflow-x:auto; overflow-y:hidden; overscroll-behavior-x:contain; }
 .gantt{ min-width:920px; font-variant-numeric:tabular-nums; }
 .gantt .fila{ display:grid; grid-template-columns:170px 100px repeat(12,1fr); align-items:center; padding:9px 0; min-height:48px; position:relative; }
 .gantt .fila > *{ grid-row:1; }
